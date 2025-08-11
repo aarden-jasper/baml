@@ -25,10 +25,39 @@ pub struct PropertyAttributes {
     pub(crate) streaming_behavior: baml_types::type_meta::base::StreamingBehavior,
 }
 
+impl baml_types::tracing::events::ToAttributes for PropertyAttributes {
+    fn to_attributes(&self) -> baml_types::tracing::events::Attributes {
+        baml_types::tracing::events::Attributes {
+            alias: self
+                .alias
+                .as_ref()
+                .and_then(|v| v.as_str().map(|s| s.to_string())),
+            skip: self.skip,
+            description: self
+                .meta
+                .get("description")
+                .and_then(|v| v.as_str().map(|s| s.to_string())),
+        }
+    }
+}
+
 #[derive(Debug)]
 pub struct RuntimeEnumOverride {
     pub(crate) alias: Option<BamlValue>,
     pub(crate) values: IndexMap<String, PropertyAttributes>,
+}
+
+impl baml_types::tracing::events::ToAttributes for RuntimeEnumOverride {
+    fn to_attributes(&self) -> baml_types::tracing::events::Attributes {
+        baml_types::tracing::events::Attributes {
+            alias: self
+                .alias
+                .as_ref()
+                .and_then(|v| v.as_str().map(|s| s.to_string())),
+            description: None,
+            skip: None,
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -36,6 +65,19 @@ pub struct RuntimeClassOverride {
     pub(crate) alias: Option<BamlValue>,
     pub(crate) new_fields: IndexMap<String, (TypeIR, PropertyAttributes)>,
     pub(crate) update_fields: IndexMap<String, PropertyAttributes>,
+}
+
+impl baml_types::tracing::events::ToAttributes for RuntimeClassOverride {
+    fn to_attributes(&self) -> baml_types::tracing::events::Attributes {
+        baml_types::tracing::events::Attributes {
+            alias: self
+                .alias
+                .as_ref()
+                .and_then(|v| v.as_str().map(|s| s.to_string())),
+            description: None,
+            skip: None,
+        }
+    }
 }
 
 cfg_if::cfg_if!(

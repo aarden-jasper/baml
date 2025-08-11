@@ -147,6 +147,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.CircularReference, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.CircularReference, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestDeepRecursion(self, depth: int,
         baml_options: BamlCallOptions = {},
@@ -159,6 +160,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.DeepRecursion, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.DeepRecursion, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestEmptyCollections(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -171,6 +173,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.EmptyCollections, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.EmptyCollections, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestLargeStructure(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -183,6 +186,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.LargeStructure, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.LargeStructure, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestNumberEdgeCases(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -195,6 +199,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.NumberEdgeCases, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.NumberEdgeCases, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestSpecialCharacters(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -207,6 +212,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SpecialCharacters, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SpecialCharacters, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

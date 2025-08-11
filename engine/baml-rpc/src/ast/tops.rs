@@ -71,7 +71,7 @@ impl AST {
             top_ids.iter().fold(0, |acc, id| {
                 let mut hasher = DefaultHasher::new();
                 acc.hash(&mut hasher);
-                id.interface_hash().hash(&mut hasher);
+                id.compile_time_interface_hash().hash(&mut hasher);
                 hasher.finish()
             }),
             top_ids.iter().fold(None, |acc, id| {

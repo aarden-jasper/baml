@@ -128,6 +128,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.BooleanLiterals, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.BooleanLiterals, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestComplexLiterals(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -140,6 +141,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.ComplexLiterals, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.ComplexLiterals, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestIntegerLiterals(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -152,6 +154,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.IntegerLiterals, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.IntegerLiterals, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestMixedLiterals(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -164,6 +167,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.MixedLiterals, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.MixedLiterals, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestStringLiterals(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -176,6 +180,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.StringLiterals, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.StringLiterals, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

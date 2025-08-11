@@ -21,7 +21,7 @@ pub use union_type::UnionConstructor;
 // When you define a type in BAML you have the IR rep of the type.
 // Sometimes you use them in streaming or nonstreaming contexts.
 /// The building block of IR types in BAML.
-#[derive(Debug, Clone, PartialEq, serde::Serialize, Eq, Hash)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, Eq, Hash)]
 pub enum TypeGeneric<T> {
     Primitive(TypeValue, T),
     Enum {
@@ -48,13 +48,15 @@ pub enum TypeGeneric<T> {
     Union(UnionTypeGeneric<T>, T),
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, serde::Serialize, strum::Display)]
+#[derive(
+    Clone, Copy, Debug, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, strum::Display,
+)]
 pub enum StreamingMode {
     NonStreaming,
     Streaming,
 }
 
-#[derive(serde::Serialize, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub struct UnionTypeGeneric<T> {
     types: Vec<TypeGeneric<T>>,
     null_type: Box<TypeGeneric<T>>,
@@ -64,8 +66,9 @@ pub struct UnionTypeGeneric<T> {
 pub type TypeIR = TypeGeneric<type_meta::IR>;
 pub type TypeNonStreaming = TypeGeneric<type_meta::NonStreaming>;
 pub type TypeStreaming = TypeGeneric<type_meta::Streaming>;
+pub type TypeRPC = TypeGeneric<type_meta::RPC>;
 
-#[derive(Debug, Clone, Copy, PartialEq, serde::Serialize, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, serde::Serialize, serde::Deserialize, Eq, Hash)]
 pub enum TypeValue {
     String,
     Int,
@@ -112,7 +115,9 @@ impl std::fmt::Display for TypeValue {
 }
 
 /// Subset of [`crate::BamlValue`] allowed for literal type definitions.
-#[derive(serde::Serialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(
+    serde::Serialize, serde::Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash,
+)]
 pub enum LiteralValue {
     String(String),
     Int(i64),
@@ -371,7 +376,7 @@ pub struct Arrow {
     pub return_type: TypeIR,
 }
 
-#[derive(serde::Serialize, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub struct ArrowGeneric<T> {
     pub param_types: Vec<TypeGeneric<T>>,
     pub return_type: TypeGeneric<T>,
@@ -578,7 +583,7 @@ impl<T> TypeGeneric<T> {
     }
 
     /// The immediate (non transitive) dependencies of a given type?
-    pub fn dependencies(&self) -> HashSet<String>
+    pub fn immediate_dependencies(&self) -> HashSet<String>
     where
         T: Clone + std::fmt::Debug + Default,
     {
@@ -649,6 +654,10 @@ impl TypeIR {
 
     pub fn to_non_streaming_type(&self, lookup: &impl TypeLookups) -> TypeNonStreaming {
         converters::non_streaming::from_type_ir(self, lookup)
+    }
+
+    pub fn to_rpc_type(&self, lookup: &impl TypeLookups) -> TypeRPC {
+        converters::rpc::from_type_ir(self, lookup)
     }
 }
 

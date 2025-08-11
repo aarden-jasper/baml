@@ -191,6 +191,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.ComplexMaps, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.ComplexMaps, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestEdgeCaseMaps(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -203,6 +204,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.EdgeCaseMaps, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.EdgeCaseMaps, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestLargeMaps(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -215,6 +217,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SimpleMaps, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SimpleMaps, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestNestedMaps(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -227,6 +230,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.NestedMaps, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.NestedMaps, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestSimpleMaps(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -239,6 +243,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SimpleMaps, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SimpleMaps, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelBoolMap(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -251,6 +256,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Dict[str, bool], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Dict[str, bool], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelEmptyMap(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -263,6 +269,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Dict[str, str], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Dict[str, str], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelFloatMap(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -275,6 +282,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Dict[str, float], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Dict[str, float], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelIntMap(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -287,6 +295,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Dict[str, int], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Dict[str, int], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelMapOfArrays(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -299,6 +308,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Dict[str, typing.List[int]], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Dict[str, typing.List[int]], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelMapOfObjects(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -311,6 +321,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Dict[str, "stream_types.User"], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Dict[str, "types.User"], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelMapWithNullable(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -323,6 +334,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Dict[str, typing.Optional[str]], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Dict[str, typing.Optional[str]], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelNestedMap(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -335,6 +347,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Dict[str, typing.Dict[str, str]], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Dict[str, typing.Dict[str, str]], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelStringMap(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -347,6 +360,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Dict[str, str], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Dict[str, str], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

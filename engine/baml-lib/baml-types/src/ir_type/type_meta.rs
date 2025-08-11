@@ -1,6 +1,7 @@
 pub type IR = base::TypeMeta;
 pub type NonStreaming = non_streaming::TypeMeta;
 pub type Streaming = stream::TypeMetaStreaming;
+pub type RPC = rpc::TypeMetaRPC;
 
 pub mod base {
     use crate::Constraint;
@@ -43,7 +44,7 @@ pub mod base {
 pub mod non_streaming {
     use crate::Constraint;
 
-    #[derive(serde::Serialize, Debug, Clone, PartialEq, Eq, Hash, Default)]
+    #[derive(serde::Serialize, serde::Deserialize, Debug, Clone, PartialEq, Eq, Hash, Default)]
     pub struct TypeMeta {
         pub constraints: Vec<Constraint>,
     }
@@ -81,6 +82,30 @@ pub mod stream {
         pub fn state(mut self) -> Self {
             self.streaming_behavior.state = true;
             self
+        }
+    }
+}
+
+pub mod rpc {
+    use crate::{Constraint, ConstraintLevel};
+
+    #[derive(serde::Serialize, Debug, Clone, PartialEq, Eq, Hash, Default)]
+    pub struct TypeMetaRPC {
+        // only asserts, no streaming behavior
+        pub constraints: Vec<Constraint>,
+    }
+
+    impl TypeMetaRPC {
+        pub fn new(asserts: &[crate::Constraint]) -> Self {
+            let mut asserts = asserts
+                .iter()
+                .filter(|a| a.level == ConstraintLevel::Assert)
+                .cloned()
+                .collect::<Vec<_>>();
+            asserts.sort_by_key(|a| (a.label.clone(), a.expression.clone()));
+            Self {
+                constraints: asserts,
+            }
         }
     }
 }

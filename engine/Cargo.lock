@@ -1046,6 +1046,7 @@ dependencies = [
  "anyhow",
  "assert_cmd",
  "baml-ids",
+ "baml-log",
  "base64 0.22.1",
  "bytes",
  "console_log",
@@ -3758,6 +3759,17 @@ name = "ipnet"
 version = "2.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "469fb0b9cefa57e3ef31275ee7cacb78f2fdca44e4765491884a2b119d4eb130"
+
+[[package]]
+name = "ir-hasher"
+version = "0.204.0"
+dependencies = [
+ "anyhow",
+ "baml-rpc",
+ "baml-types",
+ "internal-baml-parser-database",
+ "internal-llm-client",
+]
 
 [[package]]
 name = "is-docker"

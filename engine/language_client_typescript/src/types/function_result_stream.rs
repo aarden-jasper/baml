@@ -8,7 +8,7 @@ use napi::{
 use napi_derive::napi;
 
 use super::{function_results::FunctionResult, runtime_ctx_manager::RuntimeContextManager};
-use crate::errors::from_anyhow_error;
+use crate::{errors::from_anyhow_error, runtime::BamlRuntime};
 
 crate::lang_wrapper!(
     FunctionResultStream,
@@ -63,7 +63,12 @@ impl FunctionResultStream {
     }
 
     #[napi(ts_return_type = "Promise<FunctionResult>")]
-    pub fn done(&self, env: Env, rctx: &RuntimeContextManager) -> napi::Result<JsObject> {
+    pub fn done(
+        &self,
+        env: Env,
+        rctx: &RuntimeContextManager,
+        runtime: &BamlRuntime,
+    ) -> napi::Result<JsObject> {
         let inner = self.inner.clone();
 
         let on_event = match &self.callback {
@@ -91,7 +96,7 @@ impl FunctionResultStream {
         let tb = self.tb.clone();
         let cb = self.cb.clone();
         let env_vars = self.env_vars.clone();
-
+        let runtime = runtime.inner.clone();
         let fut = async move {
             let ctx_mng = ctx_mng;
             let res = inner
@@ -104,6 +109,7 @@ impl FunctionResultStream {
                     tb.as_ref(),
                     cb.as_ref(),
                     env_vars,
+                    runtime.internal().ir.as_ref(),
                 )
                 .await;
             res.0.map(FunctionResult::from).map_err(from_anyhow_error)

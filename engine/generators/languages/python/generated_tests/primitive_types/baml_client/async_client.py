@@ -163,6 +163,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.PrimitiveArrays, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.PrimitiveArrays, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestMixedPrimitives(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -175,6 +176,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.MixedPrimitives, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.MixedPrimitives, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestPrimitiveArrays(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -187,6 +189,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.PrimitiveArrays, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.PrimitiveArrays, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestPrimitiveMaps(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -199,6 +202,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.PrimitiveMaps, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.PrimitiveMaps, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestPrimitiveTypes(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -211,6 +215,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.PrimitiveTypes, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.PrimitiveTypes, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelBool(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -223,6 +228,7 @@ class BamlStreamClient:
           lambda x: typing.cast(bool, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(bool, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelFloat(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -235,6 +241,7 @@ class BamlStreamClient:
           lambda x: typing.cast(float, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(float, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelInt(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -247,6 +254,7 @@ class BamlStreamClient:
           lambda x: typing.cast(int, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(int, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelNull(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -259,6 +267,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Any, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Any, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelString(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -271,6 +280,7 @@ class BamlStreamClient:
           lambda x: typing.cast(str, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(str, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

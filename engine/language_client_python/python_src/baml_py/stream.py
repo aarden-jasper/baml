@@ -4,6 +4,7 @@ from .baml_py import (
     FunctionResultStream,
     SyncFunctionResultStream,
     RuntimeContextManager,
+    BamlRuntime,
 )
 from typing import Callable, Generic, Optional, TypeVar
 import threading
@@ -21,6 +22,7 @@ class BamlStream(Generic[PartialOutputType, FinalOutputType]):
     __partial_coerce: Callable[[FunctionResult], PartialOutputType]
     __final_coerce: Callable[[FunctionResult], FinalOutputType]
     __ctx_manager: RuntimeContextManager
+    __runtime: BamlRuntime
     __task: Optional[threading.Thread]
     __event_queue: queue.Queue[Optional[FunctionResult]]
     __future: concurrent.futures.Future[FunctionResult]
@@ -32,11 +34,13 @@ class BamlStream(Generic[PartialOutputType, FinalOutputType]):
         partial_coerce: Callable[[FunctionResult], PartialOutputType],
         final_coerce: Callable[[FunctionResult], FinalOutputType],
         ctx_manager: RuntimeContextManager,
+        runtime: BamlRuntime,
     ):
         self.__ffi_stream = ffi_stream.on_event(self.__enqueue)
         self.__partial_coerce = partial_coerce
         self.__final_coerce = final_coerce
         self.__ctx_manager = ctx_manager
+        self.__runtime = runtime
         self.__task = None
         self.__event_queue = queue.Queue()
         self.__future = concurrent.futures.Future()  # Initialize the future here
@@ -47,7 +51,9 @@ class BamlStream(Generic[PartialOutputType, FinalOutputType]):
 
     async def __drive_to_completion(self) -> FunctionResult:
         try:
-            retval = await self.__ffi_stream.done(self.__ctx_manager)
+            retval = await self.__ffi_stream.done(
+                self.__ctx_manager, self.__runtime
+            )
 
             self.__future.set_result(retval)
 

@@ -157,6 +157,7 @@ class BamlStreamClient {
         (a): partial_types.Person => a,
         (a): types.Person => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

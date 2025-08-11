@@ -107,6 +107,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Union["stream_types.Example", "stream_types.Example2"], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Union["types.Example", "types.Example2"], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def Foo(self, x: int,
         baml_options: BamlCallOptions = {},
@@ -119,6 +120,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.Union["stream_types.Example2", "stream_types.Example"], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.Union["types.Example2", "types.Example"], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

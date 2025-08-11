@@ -121,6 +121,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.ComplexUnions, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.ComplexUnions, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestDiscriminatedUnions(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -133,6 +134,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.DiscriminatedUnions, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.DiscriminatedUnions, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestPrimitiveUnions(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -145,6 +147,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.PrimitiveUnions, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.PrimitiveUnions, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestUnionArrays(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -157,6 +160,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.UnionArrays, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.UnionArrays, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

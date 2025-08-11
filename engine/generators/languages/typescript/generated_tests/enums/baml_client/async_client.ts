@@ -185,6 +185,7 @@ class BamlStreamClient {
         (a): types.TestEnum => a,
         (a): types.TestEnum => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -219,6 +220,7 @@ class BamlStreamClient {
         (a): types.TestEnum => a,
         (a): types.TestEnum => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

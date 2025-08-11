@@ -147,6 +147,7 @@ class BamlStreamClient {
         (a): {{ func.stream_return_type.serialize_type(pkg) }} => a,
         (a): {{ func.return_type.serialize_type(pkg) }} => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

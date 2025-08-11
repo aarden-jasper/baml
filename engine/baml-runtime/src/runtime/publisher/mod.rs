@@ -15,22 +15,12 @@ use internal_baml_core::ir::ir_hasher;
 use serde::Serialize;
 
 use super::InternalBamlRuntime;
-use crate::{
-    internal::ir_features::WithInternal, tracingv2::publisher::rpc_converters::TypeLookup,
-};
+use crate::tracingv2::publisher::rpc_converters::{TypeLookup, TypeWithDependencies};
 
 /// Type alias for a value with its dependencies
 pub type WithDependency<T> = (Arc<T>, Arc<Vec<Arc<BamlTypeId>>>);
 
 use super::super::tracingv2::publisher::rpc_converters::IntoRpcEvent;
-
-#[derive(Serialize)]
-pub struct TypeWithDependencies {
-    pub type_id: WithDependency<BamlTypeId>,
-    pub field_type: Arc<TypeNonStreaming>,
-    pub class_fields: Option<Arc<Vec<(String, Arc<TypeNonStreaming>)>>>,
-    pub enum_values: Option<Arc<Vec<String>>>,
-}
 
 #[derive(Serialize)]
 pub struct FunctionSignatureWithDependencies {
@@ -81,6 +71,10 @@ impl TypeLookup for AstSignatureWrapper {
 
     fn baml_src_hash(&self) -> Option<String> {
         self.baml_src_hash()
+    }
+
+    fn raw_type_lookup(&self, name: &str) -> Option<&TypeWithDependencies> {
+        self.types.get(name)
     }
 }
 

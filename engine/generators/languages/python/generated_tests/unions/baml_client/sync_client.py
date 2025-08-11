@@ -112,6 +112,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[str], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[str], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

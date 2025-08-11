@@ -39,7 +39,9 @@ use super::rpc_converters::{
 };
 use crate::{
     runtime::{AstSignatureWrapper, InternalBamlRuntime},
-    tracingv2::storage::interface::TraceEventWithMeta,
+    tracingv2::{
+        publisher::rpc_converters::TypeWithDependencies, storage::interface::TraceEventWithMeta,
+    },
 };
 
 enum PublisherMessage {
@@ -194,6 +196,10 @@ impl TypeLookup for RuntimeAST {
     fn baml_src_hash(&self) -> Option<String> {
         self.ast.baml_src_hash()
     }
+
+    fn raw_type_lookup(&self, name: &str) -> Option<&TypeWithDependencies> {
+        self.ast.raw_type_lookup(name)
+    }
 }
 
 impl BlobStorage for RuntimeAST {
@@ -228,6 +234,7 @@ pub fn start_publisher(
     // Use get_or_init to ensure thread-safe initialization
     let channel = PUBLISHING_CHANNEL.get_or_init(|| {
         let (tx, rx) = mpsc::unbounded_channel::<PublisherMessage>();
+        let (blob_tx, blob_rx) = mpsc::unbounded_channel::<BlobUploaderMessage>();
 
         let mut publisher = TracePublisher::new(rx, lookup.clone(), blob_tx.clone());
         let mut blob_uploader = BlobUploader::new(blob_rx, lookup.clone());

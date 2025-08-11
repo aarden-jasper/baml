@@ -734,10 +734,15 @@ impl TypeBuilder {
     pub fn to_overrides(
         &self,
     ) -> (
+        // classes
         IndexMap<String, RuntimeClassOverride>,
+        // enums
         IndexMap<String, RuntimeEnumOverride>,
+        // type aliases
         IndexMap<String, TypeIR>,
+        // recursive classes
         Vec<IndexSet<String>>,
+        // recursive type aliases
         Vec<IndexMap<String, TypeIR>>,
     ) {
         log::debug!("Converting types to overrides");

@@ -409,6 +409,7 @@ class BamlStreamClient {
         (a): partial_types.PrimitiveArrays => a,
         (a): types.PrimitiveArrays => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -443,6 +444,7 @@ class BamlStreamClient {
         (a): partial_types.MixedPrimitives => a,
         (a): types.MixedPrimitives => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -477,6 +479,7 @@ class BamlStreamClient {
         (a): partial_types.PrimitiveArrays => a,
         (a): types.PrimitiveArrays => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -511,6 +514,7 @@ class BamlStreamClient {
         (a): partial_types.PrimitiveMaps => a,
         (a): types.PrimitiveMaps => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -545,6 +549,7 @@ class BamlStreamClient {
         (a): partial_types.PrimitiveTypes => a,
         (a): types.PrimitiveTypes => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -579,6 +584,7 @@ class BamlStreamClient {
         (a): boolean => a,
         (a): boolean => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -613,6 +619,7 @@ class BamlStreamClient {
         (a): number => a,
         (a): number => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -647,6 +654,7 @@ class BamlStreamClient {
         (a): number => a,
         (a): number => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -681,6 +689,7 @@ class BamlStreamClient {
         (a): undefined => a,
         (a): undefined => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -715,6 +724,7 @@ class BamlStreamClient {
         (a): string => a,
         (a): string => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

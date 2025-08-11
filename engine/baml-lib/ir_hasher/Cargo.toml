@@ -1,0 +1,20 @@
+[package]
+edition = "2021"
+name = "ir-hasher"
+version.workspace = true
+authors.workspace = true
+description.workspace = true
+license-file.workspace = true
+
+[lints.rust]
+dead_code = "deny"
+elided_named_lifetimes = "deny"
+unused_imports = "deny"
+unused_variables = "deny"
+
+[dependencies]
+anyhow.workspace = true
+baml-rpc.workspace = true
+baml-types.workspace = true
+internal-llm-client.workspace = true
+internal-baml-parser-database = { path = "../parser-database" }

@@ -185,6 +185,7 @@ class BamlStreamClient {
         (a): Example | Example2 => a,
         (a): Example | Example2 => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -219,6 +220,7 @@ class BamlStreamClient {
         (a): Example2 | Example => a,
         (a): Example2 | Example => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

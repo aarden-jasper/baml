@@ -241,6 +241,7 @@ class BamlStreamClient {
         (a): partial_types.ComplexUnions => a,
         (a): types.ComplexUnions => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -275,6 +276,7 @@ class BamlStreamClient {
         (a): partial_types.DiscriminatedUnions => a,
         (a): types.DiscriminatedUnions => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -309,6 +311,7 @@ class BamlStreamClient {
         (a): partial_types.PrimitiveUnions => a,
         (a): types.PrimitiveUnions => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -343,6 +346,7 @@ class BamlStreamClient {
         (a): partial_types.UnionArrays => a,
         (a): types.UnionArrays => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

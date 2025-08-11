@@ -117,6 +117,7 @@ class BamlStreamClient:
           lambda x: typing.cast({{func.stream_return_type.serialize_type(pkg)}}, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast({{func.return_type.serialize_type(pkg)}}, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     {% endfor %}
 

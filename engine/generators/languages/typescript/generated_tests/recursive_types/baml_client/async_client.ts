@@ -185,6 +185,7 @@ class BamlStreamClient {
         (a): partial_types.JSON => a,
         (a): types.JSON => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -219,6 +220,7 @@ class BamlStreamClient {
         (a): partial_types.JSON => a,
         (a): types.JSON => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

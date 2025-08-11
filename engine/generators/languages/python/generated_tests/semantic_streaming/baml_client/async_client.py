@@ -114,6 +114,7 @@ class BamlStreamClient:
           lambda x: typing.cast(types.ClassWithBlockDone, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.ClassWithBlockDone, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def MakeClassWithExternalDone(self, 
         baml_options: BamlCallOptions = {},
@@ -126,6 +127,7 @@ class BamlStreamClient:
           lambda x: typing.cast(types.ClassWithoutDone, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.ClassWithoutDone, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def MakeSemanticContainer(self, 
         baml_options: BamlCallOptions = {},
@@ -138,6 +140,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SemanticContainer, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SemanticContainer, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

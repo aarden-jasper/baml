@@ -133,6 +133,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.ComplexNested, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.ComplexNested, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestDeeplyNested(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -145,6 +146,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.DeeplyNested, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.DeeplyNested, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestRecursiveStructure(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -157,6 +159,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.RecursiveStructure, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.RecursiveStructure, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestSimpleNested(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -169,6 +172,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SimpleNested, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SimpleNested, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

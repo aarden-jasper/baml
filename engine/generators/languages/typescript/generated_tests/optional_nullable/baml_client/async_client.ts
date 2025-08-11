@@ -269,6 +269,7 @@ class BamlStreamClient {
         (a): partial_types.NullableTypes => a,
         (a): types.NullableTypes => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -303,6 +304,7 @@ class BamlStreamClient {
         (a): partial_types.OptionalFields => a,
         (a): types.OptionalFields => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -337,6 +339,7 @@ class BamlStreamClient {
         (a): partial_types.MixedOptionalNullable => a,
         (a): types.MixedOptionalNullable => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -371,6 +374,7 @@ class BamlStreamClient {
         (a): partial_types.NullableTypes => a,
         (a): types.NullableTypes => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -405,6 +409,7 @@ class BamlStreamClient {
         (a): partial_types.OptionalFields => a,
         (a): types.OptionalFields => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

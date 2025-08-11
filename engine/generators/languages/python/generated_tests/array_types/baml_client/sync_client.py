@@ -224,6 +224,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SimpleArrays, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SimpleArrays, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestLargeArrays(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -236,6 +237,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SimpleArrays, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SimpleArrays, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestMixedArrays(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -248,6 +250,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.MixedArrays, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.MixedArrays, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestNestedArrays(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -260,6 +263,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.NestedArrays, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.NestedArrays, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestObjectArrays(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -272,6 +276,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.ObjectArrays, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.ObjectArrays, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestSimpleArrays(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -284,6 +289,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SimpleArrays, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SimpleArrays, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevel3DArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -296,6 +302,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[typing.List[typing.List[str]]], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[typing.List[typing.List[str]]], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelArrayOfMaps(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -308,6 +315,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[typing.Dict[str, int]], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[typing.Dict[str, int]], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelBoolArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -320,6 +328,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[bool], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[bool], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelEmptyArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -332,6 +341,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[str], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[str], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelFloatArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -344,6 +354,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[float], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[float], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelIntArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -356,6 +367,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[int], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[int], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelMixedArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -368,6 +380,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[typing.Union[str, int, bool]], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[typing.Union[str, int, bool]], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelNestedArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -380,6 +393,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[typing.List[int]], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[typing.List[int]], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelNullableArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -392,6 +406,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[typing.Optional[str]], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[typing.Optional[str]], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelObjectArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -404,6 +419,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List["stream_types.User"], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List["types.User"], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestTopLevelStringArray(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -416,6 +432,7 @@ class BamlStreamClient:
           lambda x: typing.cast(typing.List[str], x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(typing.List[str], x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

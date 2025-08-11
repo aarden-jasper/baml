@@ -7,7 +7,7 @@ use baml_types::{
     type_meta, HasType,
 };
 
-use super::{IntoRpcEvent, IRRpcState};
+use super::{IRRpcState, IntoRpcEvent};
 
 impl<'a, T: HasType<type_meta::NonStreaming>> IntoRpcEvent<'a, baml_rpc::runtime_api::TraceData<'a>>
     for baml_types::tracing::events::FunctionStart<T>
@@ -86,10 +86,69 @@ impl<'a> IntoRpcEvent<'a, baml_rpc::runtime_api::EvaluationContext>
                 .iter()
                 .map(|(k, v)| (k.clone(), v.clone()))
                 .collect(),
-            type_builder: None,
+            type_builder: self.type_builder.as_ref().map(|tb| tb.to_rpc_event(lookup)),
         }
     }
 }
+
+impl<'a> IntoRpcEvent<'a, baml_rpc::ast::evaluation_context::TypeBuilderValue>
+    for baml_types::tracing::events::TypeBuilderValue
+{
+    fn to_rpc_event(
+        &'a self,
+        lookup: &(impl IRRpcState + ?Sized),
+    ) -> baml_rpc::ast::evaluation_context::TypeBuilderValue {
+        baml_rpc::ast::evaluation_context::TypeBuilderValue {
+            types: self
+                .classes
+                .iter()
+                .map(|cls| {
+                    let current_type = lookup.raw_type_lookup(&cls.name);
+                    baml_rpc::TypeDefinition::Class {
+                        type_id: current_type
+                            .map_or_else(|| todo!(), |t| t.type_id.0.as_ref().clone()),
+                        source: if current_type.is_some() {
+                            baml_rpc::TypeDefinitionSource::Buildable
+                        } else {
+                            baml_rpc::TypeDefinitionSource::PureBuildable
+                        },
+                        dependencies: current_type.map_or_else(
+                            || Default::default(),
+                            |t| t.type_id.1.iter().map(|t| t.0.clone()).collect(),
+                        ),
+                        fields: vec![],
+                    }
+                })
+                .chain(self.enums.iter().map(|enum_| {
+                    let current_type = lookup.raw_type_lookup(&enum_.name);
+                    baml_rpc::TypeDefinition::Enum {
+                        type_id: current_type
+                            .map_or_else(|| todo!(), |t| t.type_id.0.as_ref().clone()),
+                        source: if current_type.is_some() {
+                            baml_rpc::TypeDefinitionSource::Buildable
+                        } else {
+                            baml_rpc::TypeDefinitionSource::PureBuildable
+                        },
+                        dependencies: current_type.map_or_else(
+                            || Default::default(),
+                            |t| t.type_id.1.iter().map(|t| t.0.clone()).collect(),
+                        ),
+                        values: vec![],
+                    }
+                }))
+                .chain(self.type_aliases.iter().map(|alias| {
+                    let current_type = lookup.raw_type_lookup(&alias.name);
+                    baml_rpc::TypeDefinition::Alias {
+                        type_id: current_type
+                            .map_or_else(|| todo!(), |t| t.type_id.0.as_ref().clone()),
+                        rhs: alias.r#type.to_rpc_event(lookup),
+                    }
+                }))
+                .collect(),
+        }
+    }
+}
+
 impl<'a, T: HasType<type_meta::NonStreaming>> IntoRpcEvent<'a, baml_rpc::runtime_api::TraceData<'a>>
     for baml_types::tracing::events::FunctionEnd<'a, T>
 {

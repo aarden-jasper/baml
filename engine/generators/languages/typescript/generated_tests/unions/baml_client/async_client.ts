@@ -157,6 +157,7 @@ class BamlStreamClient {
         (a): string[] => a,
         (a): string[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

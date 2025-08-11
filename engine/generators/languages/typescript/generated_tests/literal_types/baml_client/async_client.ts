@@ -269,6 +269,7 @@ class BamlStreamClient {
         (a): partial_types.BooleanLiterals => a,
         (a): types.BooleanLiterals => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -303,6 +304,7 @@ class BamlStreamClient {
         (a): partial_types.ComplexLiterals => a,
         (a): types.ComplexLiterals => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -337,6 +339,7 @@ class BamlStreamClient {
         (a): partial_types.IntegerLiterals => a,
         (a): types.IntegerLiterals => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -371,6 +374,7 @@ class BamlStreamClient {
         (a): partial_types.MixedLiterals => a,
         (a): types.MixedLiterals => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -405,6 +409,7 @@ class BamlStreamClient {
         (a): partial_types.StringLiterals => a,
         (a): types.StringLiterals => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

@@ -120,6 +120,13 @@ impl MetaSuffix for type_meta::IR {
     }
 }
 
+impl MetaSuffix for type_meta::RPC {
+    fn push_suffix(&self, _: &mut String) {}
+    fn constraints(&self) -> &[crate::Constraint] {
+        &self.constraints
+    }
+}
+
 /// ---------- 3. The one‐size-fits-all Display impl ----------
 impl<M> std::fmt::Display for TypeGeneric<M>
 where

@@ -119,6 +119,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SimpleClass, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SimpleClass, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def MakeSimpleClass(self, 
         baml_options: BamlCallOptions = {},
@@ -131,6 +132,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.SimpleClass, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.SimpleClass, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

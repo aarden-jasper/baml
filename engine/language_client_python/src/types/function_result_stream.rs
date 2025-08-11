@@ -6,7 +6,7 @@ use pyo3::{
 };
 
 use super::{function_results::FunctionResult, runtime_ctx_manager::RuntimeContextManager};
-use crate::errors::BamlError;
+use crate::{errors::BamlError, runtime::BamlRuntime};
 
 crate::lang_wrapper!(
     FunctionResultStream,
@@ -81,7 +81,12 @@ impl FunctionResultStream {
         slf
     }
 
-    fn done(&self, py: Python<'_>, ctx: &RuntimeContextManager) -> PyResult<PyObject> {
+    fn done(
+        &self,
+        py: Python<'_>,
+        ctx: &RuntimeContextManager,
+        runtime: &BamlRuntime,
+    ) -> PyResult<PyObject> {
         let inner = self.inner.clone();
 
         let on_event = self.on_event.as_ref().map(|cb| {
@@ -95,6 +100,7 @@ impl FunctionResultStream {
             }
         });
 
+        let runtime = runtime.inner.clone();
         let ctx_mng = ctx.inner.clone();
         let tb = self.tb.clone();
         let cb = self.cb.clone();
@@ -110,6 +116,7 @@ impl FunctionResultStream {
                     tb.as_ref(),
                     cb.as_ref(),
                     env_vars,
+                    runtime.internal().ir.as_ref(),
                 )
                 .await;
             res.map(FunctionResult::from)
@@ -138,7 +145,7 @@ impl SyncFunctionResultStream {
         slf
     }
 
-    fn done(&self, ctx: &RuntimeContextManager) -> PyResult<FunctionResult> {
+    fn done(&self, ctx: &RuntimeContextManager, runtime: &BamlRuntime) -> PyResult<FunctionResult> {
         let inner = self.inner.clone();
 
         let on_event = self.on_event.as_ref().map(|cb| {
@@ -152,6 +159,7 @@ impl SyncFunctionResultStream {
             }
         });
 
+        let runtime = runtime.inner.clone();
         let ctx_mng = ctx.inner.clone();
         let tb = self.tb.clone();
         let cb = self.cb.clone();
@@ -165,6 +173,7 @@ impl SyncFunctionResultStream {
             tb.as_ref(),
             cb.as_ref(),
             env_vars,
+            runtime.internal().ir.as_ref(),
         );
         res.map(FunctionResult::from)
             .map_err(BamlError::from_anyhow)

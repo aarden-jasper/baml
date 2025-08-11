@@ -9,7 +9,10 @@ use std::{
 use ::tracing as rust_tracing;
 use anyhow::{Context, Result};
 use baml_types::{
-    tracing::events::{EvaluationContext, FunctionStart, FunctionType, TraceData, TraceEvent},
+    baml_value::TypeLookups,
+    tracing::events::{
+        EvaluationContext, FunctionStart, FunctionType, TraceData, TraceEvent, TypeBuilderValue,
+    },
     BamlMap, BamlMediaType, BamlValue, BamlValueWithMeta,
 };
 use cfg_if::cfg_if;
@@ -399,7 +402,7 @@ impl BamlTracer {
         self.trace_stats.drain()
     }
 
-    pub(crate) fn start_call(
+    pub(crate) fn start_call<T: TypeLookups>(
         &self,
         function_name: &str,
         ctx: &RuntimeContextManager,
@@ -408,6 +411,8 @@ impl BamlTracer {
         is_stream: bool,
         // baml_src_hash: Option<String>,
         collectors: Option<Vec<Arc<Collector>>>,
+        type_builder: Option<&TypeBuilder>,
+        lookup_type: &T,
     ) -> TracingCall {
         self.trace_stats.guard().start();
         let (call_id, call_stack, last_tags, global_tags) = ctx.enter(function_name);
@@ -463,6 +468,41 @@ impl BamlTracer {
                     .chain(last_tags)
                     .map(|(k, v)| (k, serde_json::to_value(v).unwrap_or_default()))
                     .collect(),
+                type_builder: type_builder.map(|tb| {
+                    // TODO: add recursive_classes and recursive_type_aliases
+                    let (classes, enums, type_aliases, _, _) = tb.to_overrides();
+                    use baml_types::tracing::events::{BamlClass, BamlClassNewField, BamlClassUpdateField, BamlEnum, BamlEnumValue, ToAttributes, BamlTypeAlias};
+                    TypeBuilderValue {
+                        classes: classes.into_iter().map(|(name, cls)| BamlClass {
+                            name: name,
+                            attributes: cls.to_attributes(),
+                            new_fields: cls.new_fields.into_iter().map(|(name, (r#type, attrs))| {
+                                let target = r#type.to_non_streaming_type(lookup_type);
+                                BamlClassNewField {
+                                name,
+                                r#type: target,
+                                attributes: attrs.to_attributes(),
+                            }}).collect(),
+                            update_fields: cls.update_fields.into_iter().map(|(name, attrs)| BamlClassUpdateField {
+                                name,
+                                attributes: attrs.to_attributes(),
+                            }).collect(),
+                            meta: Default::default(),
+                        }).collect(),
+                        enums: enums.into_iter().map(|(name, enum_)| BamlEnum {
+                            name: name,
+                            attributes: enum_.to_attributes(),
+                            values: enum_.values.into_iter().map(|(name, attrs)| BamlEnumValue {
+                                name: name,
+                                attributes: attrs.to_attributes(),
+                            }).collect(),
+                        }).collect(),
+                        type_aliases: type_aliases.into_iter().map(|(name, r#type)| BamlTypeAlias {
+                            name: name,
+                            r#type: r#type.to_non_streaming_type(lookup_type),
+                        }).collect(),
+                    }
+                }),
             },
             if is_baml_function {
                 FunctionType::BamlLlm

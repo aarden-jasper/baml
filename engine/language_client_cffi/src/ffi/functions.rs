@@ -280,6 +280,7 @@ fn call_function_stream_from_c_inner(
                     None,
                     None,
                     HashMap::new(),
+                    runtime.internal().ir.as_ref(),
                 )
                 .await
         }));

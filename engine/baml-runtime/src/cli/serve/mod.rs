@@ -434,7 +434,8 @@ Tip: test that the server is up using `curl http://localhost:{}/_debug/ping`
                 .as_ref()
                 .map_or_else(|| std::env::vars().collect(), |options| options.env());
 
-            let result_stream = self.b.read().await.stream_function(
+            let locked = self.b.read().await;
+            let result_stream = locked.stream_function(
                 b_fn,
                 &args,
                 &Default::default(),
@@ -463,6 +464,7 @@ Tip: test that the server is up using `curl http://localhost:{}/_debug/ping`
                             None,
                             None,
                             HashMap::new(),
+                            locked.internal().ir.as_ref(),
                         )
                         .await;
 

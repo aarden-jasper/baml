@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::Result;
 use baml_ids::FunctionCallId;
 use baml_rpc::{ast::tops::BamlFunctionId, BamlTypeId};
-use baml_types::{type_meta, HasType};
+use baml_types::{ir_type::TypeNonStreaming, type_meta, HasType};
 use base64::Engine;
 
 use crate::tracingv2::storage::interface::TraceEventWithMeta;
@@ -14,9 +14,19 @@ mod trace_data;
 pub mod types;
 
 pub use blob_storage::{BlobRefCache, BlobStorage};
+pub type WithDependency<T> = (Arc<T>, Arc<Vec<Arc<BamlTypeId>>>);
+
+#[derive(serde::Serialize)]
+pub struct TypeWithDependencies {
+    pub type_id: WithDependency<BamlTypeId>,
+    pub field_type: Arc<TypeNonStreaming>,
+    pub class_fields: Option<Arc<Vec<(String, Arc<TypeNonStreaming>)>>>,
+    pub enum_values: Option<Arc<Vec<String>>>,
+}
 
 pub trait TypeLookup {
     fn type_lookup(&self, name: &str) -> Option<Arc<BamlTypeId>>;
+    fn raw_type_lookup(&self, name: &str) -> Option<&TypeWithDependencies>;
     fn function_lookup(&self, name: &str) -> Option<Arc<BamlFunctionId>>;
     fn baml_src_hash(&self) -> Option<String>;
 }
@@ -205,14 +215,17 @@ fn extract_blobs_from_trace_data<'a>(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use baml_rpc::ast::type_reference::TypeReference;
-    use baml_rpc::runtime_api::baml_value::{
-        BamlValue, Media, MediaValue, TypeIndex, ValueContent, ValueMetadata,
+    use std::{borrow::Cow, collections::HashMap};
+
+    use baml_rpc::{
+        ast::type_reference::TypeReference,
+        runtime_api::baml_value::{
+            BamlValue, Media, MediaValue, TypeIndex, ValueContent, ValueMetadata,
+        },
     };
     use indexmap::IndexMap;
-    use std::borrow::Cow;
-    use std::collections::HashMap;
+
+    use super::*;
 
     #[test]
     fn test_extract_blobs_from_media_value() {
@@ -549,8 +562,9 @@ mod tests {
 
     #[test]
     fn test_extract_blobs_integration_with_trace_data_processing() {
-        use baml_rpc::runtime_api::{HTTPBody, IntermediateData, TraceData};
         use std::borrow::Cow;
+
+        use baml_rpc::runtime_api::{HTTPBody, IntermediateData, TraceData};
 
         let cache = blob_storage::BlobRefCache::new();
         let function_call_id = "integration-test-call";
@@ -601,11 +615,12 @@ mod tests {
 
     #[test]
     fn test_extract_blobs_from_llm_request_media() {
-        use baml_rpc::runtime_api::baml_value::{Media, MediaValue};
+        use std::borrow::Cow;
+
         use baml_rpc::runtime_api::{
+            baml_value::{Media, MediaValue},
             IntermediateData, LLMChatMessage, LLMChatMessagePart, TraceData,
         };
-        use std::borrow::Cow;
 
         let cache = blob_storage::BlobRefCache::new();
         let function_call_id = "llm-media-test-call";
@@ -698,10 +713,11 @@ mod tests {
 
     #[test]
     fn test_extract_blobs_from_llm_request_text_with_base64() {
+        use std::borrow::Cow;
+
         use baml_rpc::runtime_api::{
             IntermediateData, LLMChatMessage, LLMChatMessagePart, TraceData,
         };
-        use std::borrow::Cow;
 
         let cache = blob_storage::BlobRefCache::new();
         let function_call_id = "llm-text-test-call";

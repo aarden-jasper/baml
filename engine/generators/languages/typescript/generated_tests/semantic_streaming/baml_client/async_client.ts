@@ -213,6 +213,7 @@ class BamlStreamClient {
         (a): types.ClassWithBlockDone => a,
         (a): types.ClassWithBlockDone => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -247,6 +248,7 @@ class BamlStreamClient {
         (a): types.ClassWithoutDone => a,
         (a): types.ClassWithoutDone => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -281,6 +283,7 @@ class BamlStreamClient {
         (a): partial_types.SemanticContainer => a,
         (a): types.SemanticContainer => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

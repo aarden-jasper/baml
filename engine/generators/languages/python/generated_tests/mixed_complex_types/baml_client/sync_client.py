@@ -126,6 +126,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.KitchenSink, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.KitchenSink, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestRecursiveComplexity(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -138,6 +139,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.Node, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.Node, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestUltraComplex(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -150,6 +152,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.UltraComplex, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.UltraComplex, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 

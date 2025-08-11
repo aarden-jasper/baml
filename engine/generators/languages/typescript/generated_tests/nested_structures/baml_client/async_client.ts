@@ -241,6 +241,7 @@ class BamlStreamClient {
         (a): partial_types.ComplexNested => a,
         (a): types.ComplexNested => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -275,6 +276,7 @@ class BamlStreamClient {
         (a): partial_types.DeeplyNested => a,
         (a): types.DeeplyNested => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -309,6 +311,7 @@ class BamlStreamClient {
         (a): partial_types.RecursiveStructure => a,
         (a): types.RecursiveStructure => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -343,6 +346,7 @@ class BamlStreamClient {
         (a): partial_types.SimpleNested => a,
         (a): types.SimpleNested => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

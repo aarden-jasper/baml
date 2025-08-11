@@ -408,6 +408,8 @@ impl BamlRuntime {
                 true,
                 true, // tests always stream which is why there's an on_event
                 collector.as_ref().map(|c| vec![c.clone()]),
+                None,
+                self.internal().ir(),
             );
 
         let expr_fn = self.inner.ir().find_expr_fn(function_name);
@@ -521,6 +523,7 @@ impl BamlRuntime {
                     type_builder.as_ref(),
                     None,
                     env_vars.clone(),
+                    self.internal().ir(),
                 )
                 .await;
             let res = response_res?;
@@ -680,7 +683,16 @@ impl BamlRuntime {
         let call = self
             .tracer_wrapper
             .get_or_create_tracer(&env_vars)
-            .start_call(&function_name, ctx, params, true, false, collectors);
+            .start_call(
+                &function_name,
+                ctx,
+                params,
+                true,
+                false,
+                collectors,
+                tb,
+                self.internal().ir(),
+            );
         let curr_call_id = call.curr_call_id();
 
         let fake_syntax_span = Span::fake();
@@ -1192,7 +1204,16 @@ impl ExperimentalTracingInterface for BamlRuntime {
     ) -> TracingCall {
         self.tracer_wrapper
             .get_or_create_tracer(env_vars)
-            .start_call(function_name, ctx, params, false, false, None)
+            .start_call(
+                function_name,
+                ctx,
+                params,
+                false,
+                false,
+                None,
+                None,
+                self.internal().ir(),
+            )
     }
 
     #[cfg(not(target_arch = "wasm32"))]
@@ -1367,7 +1388,8 @@ async fn expr_eval_result(
         Ok(expr_fn) => {
             log::trace!("Calling function: {function_name}");
             let collectors = collector.as_ref().map(|c| vec![c.clone()]);
-            let call = tracer.start_call(function_name, mgr, params, true, false, collectors);
+            let call =
+                tracer.start_call(function_name, mgr, params, true, false, collectors, tb, ir);
 
             let ctx = mgr.create_ctx(tb, cb, env_vars.clone(), call.new_call_id_stack.clone())?;
             let env = EvalEnv {

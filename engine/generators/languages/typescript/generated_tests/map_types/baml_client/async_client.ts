@@ -521,6 +521,7 @@ class BamlStreamClient {
         (a): partial_types.ComplexMaps => a,
         (a): types.ComplexMaps => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -555,6 +556,7 @@ class BamlStreamClient {
         (a): partial_types.EdgeCaseMaps => a,
         (a): types.EdgeCaseMaps => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -589,6 +591,7 @@ class BamlStreamClient {
         (a): partial_types.SimpleMaps => a,
         (a): types.SimpleMaps => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -623,6 +626,7 @@ class BamlStreamClient {
         (a): partial_types.NestedMaps => a,
         (a): types.NestedMaps => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -657,6 +661,7 @@ class BamlStreamClient {
         (a): partial_types.SimpleMaps => a,
         (a): types.SimpleMaps => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -691,6 +696,7 @@ class BamlStreamClient {
         (a): Record<string, boolean> => a,
         (a): Record<string, boolean> => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -725,6 +731,7 @@ class BamlStreamClient {
         (a): Record<string, string> => a,
         (a): Record<string, string> => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -759,6 +766,7 @@ class BamlStreamClient {
         (a): Record<string, number> => a,
         (a): Record<string, number> => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -793,6 +801,7 @@ class BamlStreamClient {
         (a): Record<string, number> => a,
         (a): Record<string, number> => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -827,6 +836,7 @@ class BamlStreamClient {
         (a): Record<string, number[]> => a,
         (a): Record<string, number[]> => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -861,6 +871,7 @@ class BamlStreamClient {
         (a): Record<string, partial_types.User> => a,
         (a): Record<string, types.User> => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -895,6 +906,7 @@ class BamlStreamClient {
         (a): Record<string, string | null> => a,
         (a): Record<string, string | null> => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -929,6 +941,7 @@ class BamlStreamClient {
         (a): Record<string, Record<string, string>> => a,
         (a): Record<string, Record<string, string>> => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -963,6 +976,7 @@ class BamlStreamClient {
         (a): Record<string, string> => a,
         (a): Record<string, string> => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

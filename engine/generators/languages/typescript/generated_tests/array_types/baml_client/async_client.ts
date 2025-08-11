@@ -605,6 +605,7 @@ class BamlStreamClient {
         (a): partial_types.SimpleArrays => a,
         (a): types.SimpleArrays => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -639,6 +640,7 @@ class BamlStreamClient {
         (a): partial_types.SimpleArrays => a,
         (a): types.SimpleArrays => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -673,6 +675,7 @@ class BamlStreamClient {
         (a): partial_types.MixedArrays => a,
         (a): types.MixedArrays => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -707,6 +710,7 @@ class BamlStreamClient {
         (a): partial_types.NestedArrays => a,
         (a): types.NestedArrays => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -741,6 +745,7 @@ class BamlStreamClient {
         (a): partial_types.ObjectArrays => a,
         (a): types.ObjectArrays => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -775,6 +780,7 @@ class BamlStreamClient {
         (a): partial_types.SimpleArrays => a,
         (a): types.SimpleArrays => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -809,6 +815,7 @@ class BamlStreamClient {
         (a): string[][][] => a,
         (a): string[][][] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -843,6 +850,7 @@ class BamlStreamClient {
         (a): Record<string, number>[] => a,
         (a): Record<string, number>[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -877,6 +885,7 @@ class BamlStreamClient {
         (a): boolean[] => a,
         (a): boolean[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -911,6 +920,7 @@ class BamlStreamClient {
         (a): string[] => a,
         (a): string[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -945,6 +955,7 @@ class BamlStreamClient {
         (a): number[] => a,
         (a): number[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -979,6 +990,7 @@ class BamlStreamClient {
         (a): number[] => a,
         (a): number[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -1013,6 +1025,7 @@ class BamlStreamClient {
         (a): (string | number | boolean)[] => a,
         (a): (string | number | boolean)[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -1047,6 +1060,7 @@ class BamlStreamClient {
         (a): number[][] => a,
         (a): number[][] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -1081,6 +1095,7 @@ class BamlStreamClient {
         (a): (string | null)[] => a,
         (a): (string | null)[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -1115,6 +1130,7 @@ class BamlStreamClient {
         (a): partial_types.User[] => a,
         (a): types.User[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -1149,6 +1165,7 @@ class BamlStreamClient {
         (a): string[] => a,
         (a): string[] => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

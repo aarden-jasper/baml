@@ -185,6 +185,7 @@ class BamlStreamClient {
         (a): partial_types.SimpleClass => a,
         (a): types.SimpleClass => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -219,6 +220,7 @@ class BamlStreamClient {
         (a): partial_types.SimpleClass => a,
         (a): types.SimpleClass => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

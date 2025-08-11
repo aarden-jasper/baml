@@ -213,6 +213,7 @@ class BamlStreamClient {
         (a): partial_types.KitchenSink => a,
         (a): types.KitchenSink => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -247,6 +248,7 @@ class BamlStreamClient {
         (a): partial_types.Node => a,
         (a): types.Node => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -281,6 +283,7 @@ class BamlStreamClient {
         (a): partial_types.UltraComplex => a,
         (a): types.UltraComplex => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

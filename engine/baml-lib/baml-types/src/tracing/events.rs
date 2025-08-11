@@ -6,7 +6,7 @@ use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
 pub use super::errors::BamlError;
-use crate::{type_meta, BamlMap, BamlMedia, BamlValueWithMeta, HasType};
+use crate::{ir_type::TypeNonStreaming, type_meta, BamlMap, BamlMedia, BamlValueWithMeta, HasType};
 
 pub type TraceTags = serde_json::Map<String, serde_json::Value>;
 
@@ -178,9 +178,67 @@ impl<T: HasType<type_meta::NonStreaming>> TraceData<'_, T> {
 #[derive(Debug, Serialize, Deserialize, Default)]
 pub struct EvaluationContext {
     pub tags: TraceTags,
-    // TODO(hellovai): add this
-    // pub type_builder: Option<TypeBuilderValue>,
+    pub type_builder: Option<TypeBuilderValue>,
     // pub client_registry: Option<ClientRegistryValue>,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub struct TypeBuilderValue {
+    pub classes: Vec<BamlClass>,
+    pub enums: Vec<BamlEnum>,
+    pub type_aliases: Vec<BamlTypeAlias>,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub struct BamlTypeAlias {
+    pub name: String,
+    pub r#type: TypeNonStreaming,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub struct BamlClass {
+    pub name: String,
+    pub new_fields: Vec<BamlClassNewField>,
+    pub update_fields: Vec<BamlClassUpdateField>,
+    pub meta: type_meta::NonStreaming,
+    pub attributes: Attributes,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub struct BamlClassNewField {
+    pub name: String,
+    pub r#type: TypeNonStreaming,
+    pub attributes: Attributes,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub struct BamlClassUpdateField {
+    pub name: String,
+    pub attributes: Attributes,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub struct Attributes {
+    pub alias: Option<String>,
+    pub description: Option<String>,
+    pub skip: Option<bool>,
+}
+
+pub trait ToAttributes {
+    fn to_attributes(&self) -> Attributes;
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub struct BamlEnum {
+    pub name: String,
+    pub values: Vec<BamlEnumValue>,
+    pub attributes: Attributes,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub struct BamlEnumValue {
+    pub name: String,
+    pub attributes: Attributes,
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]

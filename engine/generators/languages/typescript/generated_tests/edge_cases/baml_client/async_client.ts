@@ -297,6 +297,7 @@ class BamlStreamClient {
         (a): partial_types.CircularReference => a,
         (a): types.CircularReference => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -331,6 +332,7 @@ class BamlStreamClient {
         (a): partial_types.DeepRecursion => a,
         (a): types.DeepRecursion => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -365,6 +367,7 @@ class BamlStreamClient {
         (a): partial_types.EmptyCollections => a,
         (a): types.EmptyCollections => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -399,6 +402,7 @@ class BamlStreamClient {
         (a): partial_types.LargeStructure => a,
         (a): types.LargeStructure => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -433,6 +437,7 @@ class BamlStreamClient {
         (a): partial_types.NumberEdgeCases => a,
         (a): types.NumberEdgeCases => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);
@@ -467,6 +472,7 @@ class BamlStreamClient {
         (a): partial_types.SpecialCharacters => a,
         (a): types.SpecialCharacters => a,
         this.ctxManager.cloneContext(),
+        this.runtime,
       )
     } catch (error) {
       throw toBamlError(error);

@@ -2,6 +2,7 @@ use std::{collections::HashMap, sync::Arc};
 
 use anyhow::Result;
 use baml_types::{
+    baml_value::TypeLookups,
     ir_type::TypeNonStreaming,
     tracing::events::{FunctionEnd, FunctionStart, TraceData, TraceEvent},
     BamlValueWithMeta, TypeIR,
@@ -63,7 +64,7 @@ first.scope.clone();
 
 impl FunctionResultStream {
     #[cfg(not(target_arch = "wasm32"))]
-    pub fn run_sync<F, G>(
+    pub fn run_sync<F, G, T: TypeLookups>(
         &mut self,
         on_tick: Option<G>,
         on_event: Option<F>,
@@ -71,17 +72,18 @@ impl FunctionResultStream {
         tb: Option<&TypeBuilder>,
         cb: Option<&ClientRegistry>,
         env_vars: HashMap<String, String>,
+        lookup_type: &T,
     ) -> (Result<FunctionResult>, baml_ids::FunctionCallId)
     where
         F: Fn(FunctionResult),
         G: Fn(),
     {
         let rt = self.tokio_runtime.clone();
-        let fut = self.run(on_tick, on_event, ctx, tb, cb, env_vars);
+        let fut = self.run(on_tick, on_event, ctx, tb, cb, env_vars, lookup_type);
         rt.block_on(fut)
     }
 
-    pub async fn run<F, G>(
+    pub async fn run<F, G, T: TypeLookups>(
         &mut self,
         on_tick: Option<G>,
         on_event: Option<F>,
@@ -89,6 +91,7 @@ impl FunctionResultStream {
         tb: Option<&TypeBuilder>,
         cb: Option<&ClientRegistry>,
         env_vars: HashMap<String, String>,
+        lookup_type: &T,
     ) -> (Result<FunctionResult>, baml_ids::FunctionCallId)
     where
         F: Fn(FunctionResult),
@@ -107,6 +110,8 @@ impl FunctionResultStream {
             true,
             true,
             (!self.collectors.is_empty()).then(|| self.collectors.clone()),
+            tb,
+            lookup_type,
         );
         let rctx = ctx.create_ctx(tb, cb, env_vars, call.new_call_id_stack.clone());
         let res = match rctx {

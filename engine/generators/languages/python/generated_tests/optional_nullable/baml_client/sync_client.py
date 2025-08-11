@@ -140,6 +140,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.NullableTypes, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.NullableTypes, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestAllOptionalOmitted(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -152,6 +153,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.OptionalFields, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.OptionalFields, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestMixedOptionalNullable(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -164,6 +166,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.MixedOptionalNullable, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.MixedOptionalNullable, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestNullableTypes(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -176,6 +179,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.NullableTypes, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.NullableTypes, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     def TestOptionalFields(self, input: str,
         baml_options: BamlCallOptions = {},
@@ -188,6 +192,7 @@ class BamlStreamClient:
           lambda x: typing.cast(stream_types.OptionalFields, x.cast_to(types, types, stream_types, True, __runtime__)),
           lambda x: typing.cast(types.OptionalFields, x.cast_to(types, types, stream_types, False, __runtime__)),
           ctx,
+          __runtime__,
         )
     
 
