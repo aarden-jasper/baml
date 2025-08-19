@@ -219,9 +219,7 @@ fn create_snapshot_from_baml(baml_content: &str) -> Result<Vec<serde_json::Value
 
 #[test]
 fn test_snapshot_array_types() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/array_types/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("array_types")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -229,9 +227,7 @@ fn test_snapshot_array_types() -> Result<()> {
 
 #[test]
 fn test_snapshot_asserts() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/asserts/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("asserts")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -239,9 +235,7 @@ fn test_snapshot_asserts() -> Result<()> {
 
 #[test]
 fn test_snapshot_classes() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/classes/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("classes")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -249,9 +243,7 @@ fn test_snapshot_classes() -> Result<()> {
 
 #[test]
 fn test_snapshot_edge_cases() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/edge_cases/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("edge_cases")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -259,9 +251,7 @@ fn test_snapshot_edge_cases() -> Result<()> {
 
 #[test]
 fn test_snapshot_enums() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/enums/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("enums")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -269,9 +259,7 @@ fn test_snapshot_enums() -> Result<()> {
 
 #[test]
 fn test_snapshot_literal_types() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/literal_types/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("literal_types")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -279,9 +267,7 @@ fn test_snapshot_literal_types() -> Result<()> {
 
 #[test]
 fn test_snapshot_map_types() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/map_types/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("map_types")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -289,9 +275,7 @@ fn test_snapshot_map_types() -> Result<()> {
 
 #[test]
 fn test_snapshot_media_types() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/media_types/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("media_types")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -299,9 +283,7 @@ fn test_snapshot_media_types() -> Result<()> {
 
 #[test]
 fn test_snapshot_mixed_complex_types() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/mixed_complex_types/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("mixed_complex_types")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -309,9 +291,7 @@ fn test_snapshot_mixed_complex_types() -> Result<()> {
 
 #[test]
 fn test_snapshot_nested_structures() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/nested_structures/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("nested_structures")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -319,9 +299,7 @@ fn test_snapshot_nested_structures() -> Result<()> {
 
 #[test]
 fn test_snapshot_optional_nullable() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/optional_nullable/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("optional_nullable")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -329,9 +307,7 @@ fn test_snapshot_optional_nullable() -> Result<()> {
 
 #[test]
 fn test_snapshot_primitive_types() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/primitive_types/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("primitive_types")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -339,9 +315,7 @@ fn test_snapshot_primitive_types() -> Result<()> {
 
 #[test]
 fn test_snapshot_recursive_types() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/recursive_types/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("recursive_types")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -349,9 +323,7 @@ fn test_snapshot_recursive_types() -> Result<()> {
 
 #[test]
 fn test_snapshot_sample() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/sample/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("sample")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -359,9 +331,7 @@ fn test_snapshot_sample() -> Result<()> {
 
 #[test]
 fn test_snapshot_semantic_streaming() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/semantic_streaming/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("semantic_streaming")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -369,9 +339,7 @@ fn test_snapshot_semantic_streaming() -> Result<()> {
 
 #[test]
 fn test_snapshot_union_types_extended() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/union_types_extended/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("union_types_extended")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())
@@ -379,9 +347,7 @@ fn test_snapshot_union_types_extended() -> Result<()> {
 
 #[test]
 fn test_snapshot_unions() -> Result<()> {
-    let baml = std::fs::read_to_string(
-        "/Users/vbv/repos/baml/engine/generators/data/unions/baml_src/main.baml",
-    )?;
+    let baml = read_generator_baml("unions")?;
     let snapshot_data = create_snapshot_from_baml(&baml)?;
     insta::assert_yaml_snapshot!(snapshot_data);
     Ok(())

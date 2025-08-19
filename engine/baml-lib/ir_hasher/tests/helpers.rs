@@ -16,12 +16,27 @@ pub fn parse_baml(content: &str) -> Result<IntermediateRepr> {
 }
 
 pub fn parse_fixture(path: &str) -> Result<IntermediateRepr> {
-    let full_path = format!(
-        "/Users/vbv/repos/baml/engine/baml-lib/ir_hasher/tests/fixtures/{}",
-        path
-    );
-    let content = std::fs::read_to_string(full_path)?;
+    let full_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests")
+        .join("fixtures")
+        .join(path);
+    let content = std::fs::read_to_string(&full_path)?;
     parse_baml(&content)
+}
+
+pub fn read_generator_baml(dataset: &str) -> Result<String> {
+    use std::path::PathBuf;
+    let mut base = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    // Move from ir_hasher -> baml-lib -> engine
+    base.pop();
+    base.pop();
+    let path = base
+        .join("generators")
+        .join("data")
+        .join(dataset)
+        .join("baml_src")
+        .join("main.baml");
+    Ok(std::fs::read_to_string(path)?)
 }
 
 pub fn get_signatures(ir: &IntermediateRepr) -> Result<Vec<Signature>> {
