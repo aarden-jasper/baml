@@ -11,6 +11,7 @@ use super::{
     type_definition::{NamedType, TypeDefinition},
     type_reference::TypeReference,
 };
+use crate::HashPart;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone)]
 pub struct BamlFunctionId(pub AstNodeId);
@@ -56,7 +57,7 @@ pub struct AST {
 impl AST {
     pub fn id(&self) -> ASTId {
         // Get all top level ids
-        let top_ids = self
+        let mut top_ids = self
             .functions
             .iter()
             .map(|function| Cow::Borrowed(&function.function_id.0))
@@ -67,24 +68,23 @@ impl AST {
             )
             .collect::<Vec<_>>();
 
-        let top_ast_hash = AstNodeId::new_ast(
+        top_ids.sort_by(|a, b| a.name().cmp(b.name()));
+        let top_ids = top_ids;
+
+        let top_ast_hash = AstNodeId::new_ast(crate::NodeHash::CompileTimeOnly(HashPart::new(
             top_ids.iter().fold(0, |acc, id| {
                 let mut hasher = DefaultHasher::new();
                 acc.hash(&mut hasher);
-                id.compile_time_interface_hash().hash(&mut hasher);
+                id.compile_time().interface_hash().hash(&mut hasher);
                 hasher.finish()
             }),
-            top_ids.iter().fold(None, |acc, id| {
-                if let Some(impl_hash) = id.impl_hash() {
-                    let mut hasher = DefaultHasher::new();
-                    acc.hash(&mut hasher);
-                    impl_hash.hash(&mut hasher);
-                    Some(hasher.finish())
-                } else {
-                    acc
-                }
+            top_ids.iter().fold(0, |acc, id| {
+                let mut hasher = DefaultHasher::new();
+                acc.hash(&mut hasher);
+                id.runtime().impl_hash().hash(&mut hasher);
+                hasher.finish()
             }),
-        );
+        )));
 
         ASTId {
             top_id: Cow::Owned(top_ast_hash),

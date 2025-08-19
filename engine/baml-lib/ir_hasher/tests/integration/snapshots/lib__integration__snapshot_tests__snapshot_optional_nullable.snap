@@ -1,0 +1,94 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: TestAllNull
+  type: Function
+  interface_hash: 5357509724164839983
+  implementation_hash: 14623642098214968883
+  dependencies:
+    - NullableTypes
+    - User
+- name: TestAllOptionalOmitted
+  type: Function
+  interface_hash: 14021370854014698418
+  implementation_hash: 12940141402225443621
+  dependencies:
+    - OptionalFields
+- name: TestMixedOptionalNullable
+  type: Function
+  interface_hash: 14969232314171981309
+  implementation_hash: 8282632524101853645
+  dependencies:
+    - MixedOptionalNullable
+    - User
+- name: TestNullableTypes
+  type: Function
+  interface_hash: 4853939812897592741
+  implementation_hash: 16113097852417093205
+  dependencies:
+    - NullableTypes
+    - User
+- name: TestOptionalFields
+  type: Function
+  interface_hash: 10070906371432090876
+  implementation_hash: 2730254470213641734
+  dependencies:
+    - OptionalFields
+- name: ComplexOptional
+  type: Class
+  interface_hash: 2219237408290335851
+  implementation_hash: 7549112812102123879
+  dependencies:
+    - OptionalData
+    - OptionalItem
+    - OptionalValue
+- name: MixedOptionalNullable
+  type: Class
+  interface_hash: 3593536552432060935
+  implementation_hash: 2253501038874992793
+  dependencies:
+    - User
+- name: NullableTypes
+  type: Class
+  interface_hash: 11496191463887045809
+  implementation_hash: 3872427529743842021
+  dependencies:
+    - User
+- name: OptionalData
+  type: Class
+  interface_hash: 7782003129426037565
+  implementation_hash: 4259947202031793382
+  dependencies: []
+- name: OptionalFields
+  type: Class
+  interface_hash: 2048550478922578464
+  implementation_hash: 14471006437537171366
+  dependencies: []
+- name: OptionalItem
+  type: Class
+  interface_hash: 17549078827421500371
+  implementation_hash: 8057966978127039180
+  dependencies: []
+- name: OptionalValue
+  type: Class
+  interface_hash: 18389403390812045510
+  implementation_hash: 13877757780970912392
+  dependencies: []
+- name: Product
+  type: Class
+  interface_hash: 5291248645957800235
+  implementation_hash: 7238115347301693379
+  dependencies: []
+- name: UnionWithNull
+  type: Class
+  interface_hash: 7722843745149368682
+  implementation_hash: 6183290639714572915
+  dependencies:
+    - Product
+    - User
+- name: User
+  type: Class
+  interface_hash: 5981479662281787806
+  implementation_hash: 9816521345831382609
+  dependencies: []

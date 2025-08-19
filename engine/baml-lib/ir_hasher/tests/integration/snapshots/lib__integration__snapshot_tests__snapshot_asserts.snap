@@ -1,0 +1,15 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: PersonTest
+  type: Function
+  interface_hash: 3260551377555780751
+  implementation_hash: 8230902357137442848
+  dependencies:
+    - Person
+- name: Person
+  type: Class
+  interface_hash: 10719495505292959403
+  implementation_hash: 18385764703763509557
+  dependencies: []

@@ -1,0 +1,79 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: TestEmptyCollections
+  type: Function
+  interface_hash: 10028689608568197966
+  implementation_hash: 3290505251939159950
+  dependencies:
+    - PrimitiveArrays
+- name: TestMixedPrimitives
+  type: Function
+  interface_hash: 9653780844978297486
+  implementation_hash: 5758639123301612765
+  dependencies:
+    - MixedPrimitives
+- name: TestPrimitiveArrays
+  type: Function
+  interface_hash: 7302374658639312067
+  implementation_hash: 7616178150744075169
+  dependencies:
+    - PrimitiveArrays
+- name: TestPrimitiveMaps
+  type: Function
+  interface_hash: 5443820699739210223
+  implementation_hash: 18191048397868669453
+  dependencies:
+    - PrimitiveMaps
+- name: TestPrimitiveTypes
+  type: Function
+  interface_hash: 18258616807534424629
+  implementation_hash: 555830177038262560
+  dependencies:
+    - PrimitiveTypes
+- name: TestTopLevelBool
+  type: Function
+  interface_hash: 142067372301268281
+  implementation_hash: 3841517081056625193
+  dependencies: []
+- name: TestTopLevelFloat
+  type: Function
+  interface_hash: 11924269587984690483
+  implementation_hash: 18398693314890086680
+  dependencies: []
+- name: TestTopLevelInt
+  type: Function
+  interface_hash: 9406707476734550939
+  implementation_hash: 13068036125292940623
+  dependencies: []
+- name: TestTopLevelNull
+  type: Function
+  interface_hash: 6571925963760067370
+  implementation_hash: 2351218258675689308
+  dependencies: []
+- name: TestTopLevelString
+  type: Function
+  interface_hash: 6022553151563451378
+  implementation_hash: 11968567496045486740
+  dependencies: []
+- name: MixedPrimitives
+  type: Class
+  interface_hash: 12084836237888982021
+  implementation_hash: 151703144027945072
+  dependencies: []
+- name: PrimitiveArrays
+  type: Class
+  interface_hash: 60742378278355919
+  implementation_hash: 15041284335604806558
+  dependencies: []
+- name: PrimitiveMaps
+  type: Class
+  interface_hash: 5537927154252064023
+  implementation_hash: 17257859337326632910
+  dependencies: []
+- name: PrimitiveTypes
+  type: Class
+  interface_hash: 17102205361862607939
+  implementation_hash: 16389378990463297792
+  dependencies: []

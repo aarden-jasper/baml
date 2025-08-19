@@ -35,8 +35,8 @@ impl ShallowSignature for TopRetryPolicyDefinition<'_> {
         HashSet::new()
     }
 
-    fn shallow_implementation_hash(&self) -> Option<impl std::hash::Hash> {
-        Some(RetryPolicyImplementation(self.0))
+    fn shallow_implementation_hash(&self) -> impl std::hash::Hash {
+        RetryPolicyImplementation(self.0)
     }
 }
 
@@ -45,6 +45,10 @@ struct RetryPolicyInterface<'a, T: RetryPolicyDefinition + ?Sized>(pub(crate) &'
 impl<'a, T: RetryPolicyDefinition + ?Sized> std::hash::Hash for RetryPolicyInterface<'a, T> {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         self.0.name().hash(state);
+        // Retry policy configuration affects the interface since it changes behavior
+        self.0.max_retries().hash(state);
+        self.0.strategy().hash(state);
+        self.0.options().hash(state);
     }
 }
 

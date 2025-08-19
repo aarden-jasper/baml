@@ -249,6 +249,89 @@ impl<'a> IntoRpcEvent<'a, baml_rpc::TypeReference> for baml_types::ir_type::Type
     }
 }
 
+impl<'a> IntoRpcEvent<'a, baml_rpc::TypeReference> for baml_types::ir_type::TypeRPC {
+    fn to_rpc_event(&'a self, lookup: &(impl IRRpcState + ?Sized)) -> baml_rpc::TypeReference {
+        use baml_rpc::{LiteralTypeDefinition, MediaTypeDefinition, TypeMetadata, TypeReference};
+        use baml_types::ir_type::TypeGeneric;
+
+        let mut base_ref = match self {
+            TypeGeneric::Primitive(type_value, _) => match type_value {
+                baml_types::TypeValue::String => TypeReference::string(),
+                baml_types::TypeValue::Int => TypeReference::int(),
+                baml_types::TypeValue::Float => TypeReference::float(),
+                baml_types::TypeValue::Bool => TypeReference::bool(),
+                baml_types::TypeValue::Null => {
+                    TypeReference::union(vec![TypeReference::string()], true)
+                }
+                baml_types::TypeValue::Media(baml_media_type) => {
+                    TypeReference::media(match baml_media_type {
+                        baml_types::BamlMediaType::Image => MediaTypeDefinition::Image,
+                        baml_types::BamlMediaType::Audio => MediaTypeDefinition::Audio,
+                        baml_types::BamlMediaType::Pdf => MediaTypeDefinition::Pdf,
+                        baml_types::BamlMediaType::Video => MediaTypeDefinition::Video,
+                    })
+                }
+            },
+            TypeGeneric::Enum { name, .. } => lookup
+                .type_lookup(name.as_str())
+                .map(TypeReference::enum_type)
+                .unwrap_or(TypeReference::Unknown),
+            TypeGeneric::Literal(literal_value, _) => TypeReference::literal(match literal_value {
+                baml_types::LiteralValue::String(s) => LiteralTypeDefinition::String(s.clone()),
+                baml_types::LiteralValue::Int(i) => LiteralTypeDefinition::Int(*i),
+                baml_types::LiteralValue::Bool(b) => LiteralTypeDefinition::Bool(*b),
+            }),
+            TypeGeneric::Class { name, .. } => lookup
+                .type_lookup(name.as_str())
+                .map(TypeReference::class)
+                .unwrap_or(TypeReference::Unknown),
+            TypeGeneric::List(field_type, _) => {
+                TypeReference::list(field_type.to_rpc_event(lookup))
+            }
+            TypeGeneric::Map(field_type, field_type1, _) => TypeReference::map(
+                field_type.to_rpc_event(lookup),
+                field_type1.to_rpc_event(lookup),
+            ),
+            TypeGeneric::Union(field_types, _) => TypeReference::union(
+                field_types
+                    .iter_skip_null()
+                    .into_iter()
+                    .map(|t| t.to_rpc_event(lookup))
+                    .collect(),
+                field_types.is_optional(),
+            ),
+            TypeGeneric::Tuple(field_types, _) => {
+                TypeReference::tuple(field_types.iter().map(|t| t.to_rpc_event(lookup)).collect())
+            }
+            TypeGeneric::RecursiveTypeAlias { name: alias, .. } => lookup
+                .type_lookup(alias.as_str())
+                .map(TypeReference::recursive_type_alias)
+                .unwrap_or(TypeReference::Unknown),
+            TypeGeneric::Arrow(..) => TypeReference::Unknown,
+        };
+
+        // Handle constraints for TypeMetaRPC
+        if !self.meta().constraints.is_empty() {
+            let constraints = self.meta().constraints.clone();
+            // TypeMetaRPC only contains asserts, no checks
+            let narrowed_asserts = constraints
+                .into_iter()
+                .map(|c| NarrowingType {
+                    name: c.label.clone(),
+                    expressions: c.expression.to_rpc_event(lookup),
+                })
+                .collect();
+
+            let new_meta = TypeMetadata::new(vec![], narrowed_asserts);
+            if let Some(metadata) = base_ref.metadata_mut() {
+                metadata.merge(new_meta);
+            }
+        }
+
+        base_ref
+    }
+}
+
 impl<'a> IntoRpcEvent<'a, baml_rpc::Expression> for baml_types::JinjaExpression {
     fn to_rpc_event(&'a self, lookup: &(impl IRRpcState + ?Sized)) -> baml_rpc::Expression {
         baml_rpc::Expression::Jinja(self.0.to_string())

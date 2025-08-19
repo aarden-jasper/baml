@@ -14,6 +14,9 @@ pub enum AstNodeIdType {
     TypeAlias,
     Enum,
     Class,
+    Client,
+    RetryPolicy,
+    TemplateString,
 }
 
 // u64 are serde'd as Strings in this type, because we use this type directly in
@@ -30,7 +33,7 @@ pub struct AstNodeId {
     hash: NodeHash,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Clone, TS)]
+#[derive(Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Clone, TS, Copy)]
 #[ts(export)]
 pub enum NodeHash {
     CompileTimeOnly(HashPart),
@@ -38,7 +41,33 @@ pub enum NodeHash {
     RuntimeOnly(HashPart),
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Clone, TS)]
+impl NodeHash {
+    fn with_splitter(&self, splitter: &str) -> String {
+        format!(
+            "{}{splitter}{}",
+            self.compile_time().with_splitter(splitter),
+            self.runtime().with_splitter(splitter)
+        )
+    }
+
+    fn compile_time(&self) -> &HashPart {
+        match self {
+            NodeHash::CompileTimeOnly(hash_part) => hash_part,
+            NodeHash::CompileTimeAndRuntime(hash_part, _) => hash_part,
+            NodeHash::RuntimeOnly(_) => &ZERO_HASH,
+        }
+    }
+
+    fn runtime(&self) -> &HashPart {
+        match self {
+            NodeHash::CompileTimeOnly(_) => &ZERO_HASH,
+            NodeHash::CompileTimeAndRuntime(_, hash_part) => hash_part,
+            NodeHash::RuntimeOnly(hash_part) => hash_part,
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, Eq, Hash, Deserialize, Serialize, Clone, TS, Copy)]
 #[ts(export)]
 pub struct HashPart {
     #[ts(type = "string")]
@@ -47,23 +76,45 @@ pub struct HashPart {
         deserialize_with = "deserialize_string_to_u64"
     )]
     interface_hash: u64,
-    #[ts(type = "string | null")]
+    #[ts(type = "string")]
     #[serde(
-        serialize_with = "serialize_optional_u64_to_string",
-        deserialize_with = "deserialize_optional_string_to_optional_u64"
+        serialize_with = "serialize_u64_to_string",
+        deserialize_with = "deserialize_string_to_u64"
     )]
-    impl_hash: Option<u64>,
+    impl_hash: u64,
+}
+
+const ZERO_HASH: HashPart = HashPart::zero();
+
+impl HashPart {
+    pub fn new(interface_hash: u64, impl_hash: u64) -> Self {
+        Self {
+            interface_hash,
+            impl_hash,
+        }
+    }
+
+    const fn zero() -> Self {
+        Self {
+            interface_hash: 0,
+            impl_hash: 0,
+        }
+    }
+
+    fn with_splitter(&self, splitter: &str) -> String {
+        format!("{}{splitter}{}", self.interface_hash, self.impl_hash)
+    }
+
+    pub fn interface_hash(&self) -> u64 {
+        self.interface_hash
+    }
+
+    pub fn impl_hash(&self) -> u64 {
+        self.impl_hash
+    }
 }
 
 impl AstNodeId {
-    pub fn compile_time_interface_hash(&self) -> u64 {
-        self.compile_time.interface_hash
-    }
-
-    pub fn impl_hash(&self) -> Option<u64> {
-        self.compile_time.impl_hash
-    }
-
     pub fn type_name(&self) -> &str {
         match self.type_name {
             AstNodeIdType::Ast => "ast",
@@ -71,6 +122,9 @@ impl AstNodeId {
             AstNodeIdType::TypeAlias => "type_alias",
             AstNodeIdType::Enum => "enum",
             AstNodeIdType::Class => "class",
+            AstNodeIdType::Client => "client",
+            AstNodeIdType::RetryPolicy => "retry_policy",
+            AstNodeIdType::TemplateString => "template_string",
         }
     }
 
@@ -78,67 +132,74 @@ impl AstNodeId {
         &self.name
     }
 
-    pub fn with_runtime_hash(mut self, interface_hash: u64, impl_hash: Option<u64>) -> Self {
-        self.runtime = Some(HashPart {
-            interface_hash,
-            impl_hash,
-        });
-        self
+    pub fn compile_time(&self) -> &HashPart {
+        self.hash.compile_time()
+    }
+    pub fn runtime(&self) -> &HashPart {
+        self.hash.runtime()
     }
 
-    pub fn new_ast(interface_hash: u64, impl_hash: Option<u64>) -> Self {
+    pub fn new_ast(hash: NodeHash) -> Self {
         Self {
             type_name: AstNodeIdType::Ast,
             name: "root".to_string(),
-            compile_time: HashPart {
-                interface_hash,
-                impl_hash,
-            },
-            runtime: None,
+            hash,
         }
     }
-    pub fn new_type_alias(name: String, interface_hash: u64, impl_hash: Option<u64>) -> Self {
+
+    pub fn new_type_alias(name: String, hash: NodeHash) -> Self {
         Self {
             type_name: AstNodeIdType::TypeAlias,
             name,
-            compile_time: HashPart {
-                interface_hash,
-                impl_hash,
-            },
-            runtime: None,
+            hash,
         }
     }
-    pub fn new_function(name: String, interface_hash: u64, impl_hash: Option<u64>) -> Self {
+
+    pub fn new_function(name: String, hash: NodeHash) -> Self {
         Self {
             type_name: AstNodeIdType::Function,
             name,
-            compile_time: HashPart {
-                interface_hash,
-                impl_hash,
-            },
-            runtime: None,
+            hash,
         }
     }
-    pub fn new_enum(name: String, interface_hash: u64, impl_hash: Option<u64>) -> Self {
+
+    pub fn new_enum(name: String, hash: NodeHash) -> Self {
         Self {
             type_name: AstNodeIdType::Enum,
             name,
-            compile_time: HashPart {
-                interface_hash,
-                impl_hash,
-            },
-            runtime: None,
+            hash,
         }
     }
-    pub fn new_class(name: String, interface_hash: u64, impl_hash: Option<u64>) -> Self {
+
+    pub fn new_class(name: String, hash: NodeHash) -> Self {
         Self {
             type_name: AstNodeIdType::Class,
             name,
-            compile_time: HashPart {
-                interface_hash,
-                impl_hash,
-            },
-            runtime: None,
+            hash,
+        }
+    }
+
+    pub fn new_client(name: String, hash: NodeHash) -> Self {
+        Self {
+            type_name: AstNodeIdType::Client,
+            name,
+            hash,
+        }
+    }
+
+    pub fn new_retry_policy(name: String, hash: NodeHash) -> Self {
+        Self {
+            type_name: AstNodeIdType::RetryPolicy,
+            name,
+            hash,
+        }
+    }
+
+    pub fn new_template_string(name: String, hash: NodeHash) -> Self {
+        Self {
+            type_name: AstNodeIdType::TemplateString,
+            name,
+            hash,
         }
     }
 }
@@ -147,15 +208,10 @@ impl std::fmt::Display for AstNodeId {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "{}##{}##{}##{}##{}##{}",
+            "{}##{}##{}",
             self.type_name,
             self.name,
-            self.compile_time.interface_hash,
-            self.compile_time.impl_hash.unwrap_or(0),
-            self.runtime.as_ref().map_or(0, |r| r.interface_hash),
-            self.runtime
-                .as_ref()
-                .map_or(0, |r| r.impl_hash.unwrap_or(0))
+            self.hash.with_splitter("##")
         )
     }
 }
@@ -167,65 +223,47 @@ impl std::str::FromStr for AstNodeId {
         let parts = s.split("##").collect::<Vec<_>>();
 
         let comp_time_interface_hash = match parts[2].parse() {
-            Ok(0) => None,
-            Ok(interface_hash) => Some(interface_hash),
+            Ok(interface_hash) => interface_hash,
             Err(_) => return Err(anyhow::anyhow!("Invalid unique id: {}", s)),
         };
         let comp_time_impl_hash = match parts[3].parse() {
-            Ok(0) => None,
-            Ok(impl_hash) => Some(impl_hash),
+            Ok(impl_hash) => impl_hash,
             Err(_) => return Err(anyhow::anyhow!("Invalid unique id: {}", s)),
         };
         let runtime_interface_hash = match parts[4].parse() {
-            Ok(0) => None,
-            Ok(interface_hash) => Some(interface_hash),
+            Ok(interface_hash) => interface_hash,
             Err(_) => return Err(anyhow::anyhow!("Invalid unique id: {}", s)),
         };
         let runtime_impl_hash = match parts[5].parse() {
-            Ok(0) => None,
-            Ok(impl_hash) => Some(impl_hash),
+            Ok(impl_hash) => impl_hash,
             Err(_) => return Err(anyhow::anyhow!("Invalid unique id: {}", s)),
         };
 
-        fn match_hash_parts(
-            s: &str,
-            interface_hash: Option<u64>,
-            impl_hash: Option<u64>,
-        ) -> Option<HashPart> {
-            Some(match (interface_hash, impl_hash) {
-                (Some(interface_hash), Some(impl_hash)) => HashPart {
+        fn match_hash_parts(interface_hash: u64, impl_hash: u64) -> Option<HashPart> {
+            if interface_hash == 0 && impl_hash == 0 {
+                None
+            } else {
+                Some(HashPart {
                     interface_hash,
-                    impl_hash: Some(impl_hash),
-                },
-                (Some(interface_hash), None) => HashPart {
-                    interface_hash,
-                    impl_hash: None,
-                },
-                (None, Some(_)) => {
-                    baml_log::error!(
-                        "Invalid unique id: {}. Please report this to the BAML team.",
-                        s
-                    );
-                    HashPart {
-                        // This is a hack to ensure that the runtime hash is not 0,
-                        interface_hash: 1337,
-                        impl_hash: None,
-                    }
-                }
-                (None, None) => return None,
-            })
+                    impl_hash,
+                })
+            }
         }
 
-        let compile_time = match_hash_parts(s, comp_time_interface_hash, comp_time_impl_hash);
-        let runtime = match_hash_parts(s, runtime_interface_hash, runtime_impl_hash);
+        let compile_time = match_hash_parts(comp_time_interface_hash, comp_time_impl_hash);
+        let runtime = match_hash_parts(runtime_interface_hash, runtime_impl_hash);
 
-        let compile_time = compile_time.ok_or(anyhow::anyhow!("Invalid unique id: {}", s))?;
+        let hash = match (compile_time, runtime) {
+            (Some(c), Some(r)) => NodeHash::CompileTimeAndRuntime(c, r),
+            (Some(c), None) => NodeHash::CompileTimeOnly(c),
+            (None, Some(r)) => NodeHash::RuntimeOnly(r),
+            (None, None) => anyhow::bail!("Invalid unique id: {}", s),
+        };
 
         Ok(AstNodeId {
             type_name: parts[0].parse::<AstNodeIdType>()?,
             name: parts[1].to_string(),
-            compile_time,
-            runtime,
+            hash,
         })
     }
 }
@@ -248,48 +286,10 @@ where
     }
 }
 
-// Helper function to deserialize optional string to Option<u64>
-fn deserialize_optional_string_to_optional_u64<'de, D>(
-    deserializer: D,
-) -> Result<Option<u64>, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    #[derive(Deserialize)]
-    #[serde(untagged)]
-    enum StringOrNumOrNull {
-        String(String),
-        Num(u64),
-        Null,
-    }
-
-    match StringOrNumOrNull::deserialize(deserializer)? {
-        StringOrNumOrNull::String(s) => {
-            s.parse::<u64>().map(Some).map_err(serde::de::Error::custom)
-        }
-        StringOrNumOrNull::Num(i) => Ok(Some(i)),
-        StringOrNumOrNull::Null => Ok(None),
-    }
-}
-
 // Helper function to serialize u64 to string
 fn serialize_u64_to_string<S>(value: &u64, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: serde::Serializer,
 {
     serializer.serialize_str(&value.to_string())
-}
-
-// Helper function to serialize Option<u64> to string
-fn serialize_optional_u64_to_string<S>(
-    value: &Option<u64>,
-    serializer: S,
-) -> Result<S::Ok, S::Error>
-where
-    S: serde::Serializer,
-{
-    match value {
-        Some(v) => serializer.serialize_str(&v.to_string()),
-        None => serializer.serialize_none(),
-    }
 }

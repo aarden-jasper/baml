@@ -1,0 +1,34 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: Bar
+  type: Function
+  interface_hash: 13271172508040717359
+  implementation_hash: 15024438904254735024
+  dependencies:
+    - Example
+    - Example2
+- name: Foo
+  type: Function
+  interface_hash: 9131431700695780845
+  implementation_hash: 18288448722293156566
+  dependencies:
+    - Example
+    - Example2
+- name: Example
+  type: Class
+  interface_hash: 1765347036861816275
+  implementation_hash: 13491896119937354061
+  dependencies: []
+- name: Example2
+  type: Class
+  interface_hash: 4782968547065009493
+  implementation_hash: 3107259930755851483
+  dependencies:
+    - Example
+- name: Thinking
+  type: Client
+  interface_hash: 5543763994030212636
+  implementation_hash: 10358195218093434614
+  dependencies: []

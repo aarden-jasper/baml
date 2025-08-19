@@ -409,7 +409,7 @@ impl BamlRuntime {
                 true, // tests always stream which is why there's an on_event
                 collector.as_ref().map(|c| vec![c.clone()]),
                 None,
-                self.internal().ir(),
+                self.inner.ir(),
             );
 
         let expr_fn = self.inner.ir().find_expr_fn(function_name);
@@ -523,7 +523,7 @@ impl BamlRuntime {
                     type_builder.as_ref(),
                     None,
                     env_vars.clone(),
-                    self.internal().ir(),
+                    self.inner.ir(),
                 )
                 .await;
             let res = response_res?;
@@ -691,7 +691,7 @@ impl BamlRuntime {
                 false,
                 collectors,
                 tb,
-                self.internal().ir(),
+                self.inner.ir(),
             );
         let curr_call_id = call.curr_call_id();
 
@@ -1212,7 +1212,7 @@ impl ExperimentalTracingInterface for BamlRuntime {
                 false,
                 None,
                 None,
-                self.internal().ir(),
+                self.inner.ir(),
             )
     }
 

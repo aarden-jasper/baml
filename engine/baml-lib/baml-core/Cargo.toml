@@ -33,6 +33,7 @@ internal-llm-client = { path = "../llm-client" }
 internal-baml-jinja-types = { path = "../jinja" }
 internal-baml-parser-database = { path = "../parser-database" }
 internal-baml-prompt-parser = { path = "../prompt-parser" }
+ir-hasher = { path = "../ir_hasher" }
 baml-rpc.workspace = true
 minijinja.workspace = true
 rayon = "1.8.0"

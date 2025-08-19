@@ -9,9 +9,9 @@ use baml_rpc::{
     ast::{ast_node_id::AstNodeId, tops::BamlFunctionId},
     BamlTypeId,
 };
-use baml_types::ir_type::TypeNonStreaming;
+use baml_types::ir_type::TypeRPC;
 use cowstr::CowStr;
-use internal_baml_core::ir::ir_hasher;
+use ir_hasher::{CanMakeSignature, ClassDefinition, EnumDefinition, TypeAliasDefinition};
 use serde::Serialize;
 
 use super::InternalBamlRuntime;
@@ -25,8 +25,8 @@ use super::super::tracingv2::publisher::rpc_converters::IntoRpcEvent;
 #[derive(Serialize)]
 pub struct FunctionSignatureWithDependencies {
     pub function_id: WithDependency<BamlFunctionId>,
-    pub inputs: Arc<Vec<(String, TypeNonStreaming)>>,
-    pub output: Arc<TypeNonStreaming>,
+    pub inputs: Arc<Vec<(String, TypeRPC)>>,
+    pub output: Arc<TypeRPC>,
 }
 
 #[derive(Default, Serialize)]
@@ -84,141 +84,186 @@ impl TryFrom<(Arc<InternalBamlRuntime>, HashMap<String, String>)> for AstSignatu
     fn try_from(
         (ir_runtime, env_vars): (Arc<InternalBamlRuntime>, HashMap<String, String>),
     ) -> Result<Self, Self::Error> {
-        let ir_signature = ir_hasher::IRSignature::new_from_ir(&ir_runtime.ir)?;
+        // Create adapters and generate signatures
+        let adapters = ir_runtime.ir.as_signature_adapters();
+        let shallow_signatures = ir_hasher::generate_signatures(adapters)?;
 
-        let name_to_baml_type_id_map: HashMap<String, Arc<BamlTypeId>> = ir_signature
-            .classes
-            .iter()
-            .map(|(name, (type_node_sig, _class_details))| {
-                (
-                    name.clone(),
-                    Arc::new(BamlTypeId(type_node_sig.signature.clone_into_ast_node_id())),
-                )
-            })
-            .chain(
-                ir_signature
-                    .enums
-                    .iter()
-                    .map(|(name, (type_node_sig, _enum_details))| {
-                        (
-                            name.clone(),
-                            Arc::new(BamlTypeId(type_node_sig.signature.clone_into_ast_node_id())),
-                        )
-                    }),
-            )
-            .chain(
-                ir_signature
-                    .type_aliases
-                    .iter()
-                    .map(|(name, type_node_sig)| {
-                        (
-                            name.clone(),
-                            Arc::new(BamlTypeId(type_node_sig.signature.clone_into_ast_node_id())),
-                        )
-                    }),
-            )
-            .collect();
-
-        let functions: HashMap<String, FunctionSignatureWithDependencies> = ir_signature
-            .functions
+        let name_to_baml_type_id_map: HashMap<String, _> = shallow_signatures
             .into_iter()
-            .map(|(name, func_sig)| {
-                let dep_names_vec: Vec<String> = func_sig.signature.dependency_names().clone();
-                let dependencies = dep_names_vec
-                    .iter()
-                    .filter_map(|dep_name| name_to_baml_type_id_map.get(dep_name).cloned())
-                    .collect::<Vec<Arc<BamlTypeId>>>();
+            .map(|s| {
                 (
-                    name,
-                    FunctionSignatureWithDependencies {
-                        function_id: (
-                            Arc::new(BamlFunctionId(func_sig.signature.clone_into_ast_node_id())),
-                            Arc::new(dependencies),
-                        ),
-                        inputs: func_sig.inputs.clone(),
-                        output: func_sig.output.clone(),
-                    },
+                    s.display_name.clone(),
+                    (Arc::new(BamlTypeId(s.to_ast_node())), s),
                 )
             })
             .collect();
 
-        let types: HashMap<String, TypeWithDependencies> = ir_signature
-            .classes
+        // Recreate adapters after it was moved
+        let adapters = ir_runtime.ir.as_signature_adapters();
+        let functions = adapters
+            .functions()
             .into_iter()
-            .map(|(name, (type_node_sig, class_details))| {
-                let dep_names_vec: Vec<String> = type_node_sig.signature.dependency_names().clone();
-                let dependencies = dep_names_vec
+            .map(|f| {
+                Ok((
+                    f,
+                    name_to_baml_type_id_map
+                        .get(f.name())
+                        .ok_or(anyhow::anyhow!(
+                            "Function not found in name_to_baml_type_id_map"
+                        ))?,
+                ))
+            })
+            .map(
+                |res: Result<(&dyn ir_hasher::FunctionDefinition, &_), anyhow::Error>| {
+                    let (f, (type_id, signature)) = res?;
+                    let dependencies = signature
+                        .dependency_names()
+                        .iter()
+                        .filter_map(|dep_name| name_to_baml_type_id_map.get(dep_name))
+                        .map(|(type_id, _)| type_id.clone())
+                        .collect();
+                    Ok::<(String, FunctionSignatureWithDependencies), anyhow::Error>((
+                        f.name().to_string(),
+                        FunctionSignatureWithDependencies {
+                            function_id: (
+                                Arc::new(BamlFunctionId(type_id.0.clone())),
+                                Arc::new(dependencies),
+                            ),
+                            inputs: Arc::new(
+                                f.parameters()
+                                    .into_iter()
+                                    .map(|(name, t)| (name.to_string(), t.clone()))
+                                    .collect(),
+                            ),
+                            output: Arc::new(f.return_type().clone()),
+                        },
+                    ))
+                },
+            )
+            .collect::<Result<HashMap<_, _>, _>>()?;
+
+        let types: HashMap<String, TypeWithDependencies> = adapters
+            .classes()
+            .into_iter()
+            .map(|c| {
+                Ok((
+                    c,
+                    name_to_baml_type_id_map
+                        .get(c.name())
+                        .ok_or(anyhow::anyhow!(
+                            "Class not found in name_to_baml_type_id_map"
+                        ))?,
+                ))
+            })
+            .map(|res: Result<(&dyn ClassDefinition, &_), anyhow::Error>| {
+                let (c, (type_id, signature)) = res?;
+                let dependencies = signature
+                    .dependency_names()
                     .iter()
-                    .filter_map(|dep_name| name_to_baml_type_id_map.get(dep_name).cloned())
-                    .collect::<Vec<Arc<BamlTypeId>>>();
-                (
-                    name.clone(),
+                    .filter_map(|dep_name| name_to_baml_type_id_map.get(dep_name))
+                    .map(|(type_id, _)| type_id.clone())
+                    .collect();
+                Ok::<(String, TypeWithDependencies), anyhow::Error>((
+                    c.name().to_string(),
                     TypeWithDependencies {
                         type_id: (
-                            Arc::new(BamlTypeId(type_node_sig.signature.clone_into_ast_node_id())),
+                            Arc::new(BamlTypeId(type_id.0.clone())),
                             Arc::new(dependencies),
                         ),
-                        field_type: type_node_sig.field_type.clone(),
-                        class_fields: Some(class_details.fields.clone()),
+                        field_type: Arc::new(TypeRPC::class(c.name())),
+                        class_fields: Some(Arc::new(
+                            c.fields_sorted_by_name()
+                                .into_iter()
+                                .map(|f| (f.name().to_string(), Arc::new(f.r#type().clone())))
+                                .collect::<Vec<_>>(),
+                        )),
                         enum_values: None,
                     },
-                )
+                ))
             })
             .chain(
-                ir_signature
-                    .enums
+                adapters
+                    .enums()
                     .into_iter()
-                    .map(|(name, (type_node_sig, enum_details))| {
-                        let dep_names_vec: Vec<String> =
-                            type_node_sig.signature.dependency_names().clone();
-                        let dependencies = dep_names_vec
+                    .map(|e| {
+                        Ok((
+                            e,
+                            name_to_baml_type_id_map
+                                .get(e.name())
+                                .ok_or(anyhow::anyhow!(
+                                    "Enum not found in name_to_baml_type_id_map"
+                                ))?,
+                        ))
+                    })
+                    .map(|res: Result<(&dyn EnumDefinition, &_), anyhow::Error>| {
+                        let (e, (type_id, signature)) = res?;
+                        let dependencies = signature
+                            .dependency_names()
                             .iter()
-                            .filter_map(|dep_name| name_to_baml_type_id_map.get(dep_name).cloned())
-                            .collect::<Vec<Arc<BamlTypeId>>>();
-                        (
-                            name.clone(),
+                            .filter_map(|dep_name| name_to_baml_type_id_map.get(dep_name))
+                            .map(|(type_id, _)| type_id.clone())
+                            .collect();
+
+                        // Extract enum values
+                        let enum_values = e
+                            .values_sorted_by_order()
+                            .into_iter()
+                            .map(|v| v.name().to_string())
+                            .collect::<Vec<_>>();
+
+                        Ok::<(String, TypeWithDependencies), anyhow::Error>((
+                            e.name().to_string(),
                             TypeWithDependencies {
                                 type_id: (
-                                    Arc::new(BamlTypeId(
-                                        type_node_sig.signature.clone_into_ast_node_id(),
-                                    )),
+                                    Arc::new(BamlTypeId(type_id.0.clone())),
                                     Arc::new(dependencies),
                                 ),
-                                field_type: type_node_sig.field_type.clone(),
+                                field_type: Arc::new(TypeRPC::r#enum(e.name())),
                                 class_fields: None,
-                                enum_values: Some(enum_details.values.clone()),
+                                enum_values: Some(Arc::new(enum_values)),
                             },
-                        )
+                        ))
                     }),
             )
             .chain(
-                ir_signature
-                    .type_aliases
+                adapters
+                    .type_aliases()
                     .into_iter()
-                    .map(|(name, type_node_sig)| {
-                        let dep_names_vec: Vec<String> =
-                            type_node_sig.signature.dependency_names().clone();
-                        let dependencies = dep_names_vec
-                            .iter()
-                            .filter_map(|dep_name| name_to_baml_type_id_map.get(dep_name).cloned())
-                            .collect::<Vec<Arc<BamlTypeId>>>();
-                        (
-                            name.clone(),
-                            TypeWithDependencies {
-                                type_id: (
-                                    Arc::new(BamlTypeId(
-                                        type_node_sig.signature.clone_into_ast_node_id(),
-                                    )),
-                                    Arc::new(dependencies),
-                                ),
-                                field_type: type_node_sig.field_type.clone(),
-                                class_fields: None,
-                                enum_values: None,
-                            },
-                        )
-                    }),
+                    .map(|t| {
+                        Ok((
+                            t,
+                            name_to_baml_type_id_map
+                                .get(t.name())
+                                .ok_or(anyhow::anyhow!(
+                                    "Type alias not found in name_to_baml_type_id_map"
+                                ))?,
+                        ))
+                    })
+                    .map(
+                        |res: Result<(&dyn TypeAliasDefinition, &_), anyhow::Error>| {
+                            let (t, (type_id, signature)) = res?;
+                            let dependencies = signature
+                                .dependency_names()
+                                .iter()
+                                .filter_map(|dep_name| name_to_baml_type_id_map.get(dep_name))
+                                .map(|(type_id, _)| type_id.clone())
+                                .collect();
+                            Ok::<(String, TypeWithDependencies), anyhow::Error>((
+                                t.name().to_string(),
+                                TypeWithDependencies {
+                                    type_id: (
+                                        Arc::new(BamlTypeId(type_id.0.clone())),
+                                        Arc::new(dependencies),
+                                    ),
+                                    field_type: Arc::new(t.r#type().clone()),
+                                    class_fields: None,
+                                    enum_values: None,
+                                },
+                            ))
+                        },
+                    ),
             )
-            .collect();
+            .collect::<Result<HashMap<_, _>, _>>()?;
 
         let source_code = ir_runtime
             .source_files
@@ -232,38 +277,6 @@ impl TryFrom<(Arc<InternalBamlRuntime>, HashMap<String, String>)> for AstSignatu
             types,
             source_code,
         })
-    }
-}
-
-// Helper extension trait to convert ir_hasher::Signature to AstNodeId
-trait SignatureExt {
-    fn clone_into_ast_node_id(&self) -> AstNodeId;
-}
-
-impl SignatureExt for internal_baml_core::ir::ir_hasher::Signature {
-    fn clone_into_ast_node_id(&self) -> AstNodeId {
-        let interface_hash = self.interface_hash();
-        let impl_hash = self.implementation_hash();
-        let name = self.display_name().to_string();
-
-        match self.r#type {
-            internal_baml_core::ir::ir_hasher::SignatureType::Class => {
-                AstNodeId::new_class(name, interface_hash, impl_hash)
-            }
-            internal_baml_core::ir::ir_hasher::SignatureType::Enum => {
-                AstNodeId::new_enum(name, interface_hash, impl_hash)
-            }
-            internal_baml_core::ir::ir_hasher::SignatureType::TypeAlias => {
-                AstNodeId::new_type_alias(name, interface_hash, impl_hash)
-            }
-            internal_baml_core::ir::ir_hasher::SignatureType::Function => {
-                AstNodeId::new_function(name, interface_hash, impl_hash)
-            }
-            _ => panic!(
-                "Unsupported signature type for AstNodeId conversion: {:?}",
-                self.r#type
-            ),
-        }
     }
 }
 

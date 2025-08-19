@@ -464,7 +464,7 @@ Tip: test that the server is up using `curl http://localhost:{}/_debug/ping`
                             None,
                             None,
                             HashMap::new(),
-                            locked.internal().ir.as_ref(),
+                            locked.inner.ir.as_ref(),
                         )
                         .await;
 

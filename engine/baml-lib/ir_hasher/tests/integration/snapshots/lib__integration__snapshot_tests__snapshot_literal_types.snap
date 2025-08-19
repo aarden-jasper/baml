@@ -1,0 +1,59 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: TestBooleanLiterals
+  type: Function
+  interface_hash: 3854525259162306756
+  implementation_hash: 11379241238147308297
+  dependencies:
+    - BooleanLiterals
+- name: TestComplexLiterals
+  type: Function
+  interface_hash: 2215980548928453845
+  implementation_hash: 5412652715118317163
+  dependencies:
+    - ComplexLiterals
+- name: TestIntegerLiterals
+  type: Function
+  interface_hash: 15174943246190875836
+  implementation_hash: 17098638660634523822
+  dependencies:
+    - IntegerLiterals
+- name: TestMixedLiterals
+  type: Function
+  interface_hash: 8497605064461293777
+  implementation_hash: 2735423312091237249
+  dependencies:
+    - MixedLiterals
+- name: TestStringLiterals
+  type: Function
+  interface_hash: 13087305464764632673
+  implementation_hash: 4404060028528174723
+  dependencies:
+    - StringLiterals
+- name: BooleanLiterals
+  type: Class
+  interface_hash: 14936726588715850534
+  implementation_hash: 12774898569066078378
+  dependencies: []
+- name: ComplexLiterals
+  type: Class
+  interface_hash: 2308171243514709099
+  implementation_hash: 11662584631086862704
+  dependencies: []
+- name: IntegerLiterals
+  type: Class
+  interface_hash: 13536148959909432022
+  implementation_hash: 5264776194234441170
+  dependencies: []
+- name: MixedLiterals
+  type: Class
+  interface_hash: 13444352363459360626
+  implementation_hash: 6009634482800403984
+  dependencies: []
+- name: StringLiterals
+  type: Class
+  interface_hash: 13123305316070888506
+  implementation_hash: 6280757463302683839
+  dependencies: []

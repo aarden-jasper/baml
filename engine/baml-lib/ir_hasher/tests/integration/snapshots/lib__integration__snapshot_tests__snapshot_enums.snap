@@ -1,0 +1,21 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: ConsumeTestEnum
+  type: Function
+  interface_hash: 16431538730266002101
+  implementation_hash: 17186271544129092528
+  dependencies:
+    - TestEnum
+- name: FnTestAliasedEnumOutput
+  type: Function
+  interface_hash: 12187657307419021766
+  implementation_hash: 12380900948375101518
+  dependencies:
+    - TestEnum
+- name: TestEnum
+  type: Enum
+  interface_hash: 14210151705656271470
+  implementation_hash: 7059565391331864947
+  dependencies: []

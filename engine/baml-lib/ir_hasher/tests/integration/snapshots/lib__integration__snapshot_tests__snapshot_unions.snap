@@ -1,0 +1,48 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: JsonInput
+  type: Function
+  interface_hash: 1039157270715332722
+  implementation_hash: 11378761002350541711
+  dependencies:
+    - ExistingSystemComponent
+- name: ExistingSystemComponent
+  type: Class
+  interface_hash: 6944853019601418003
+  implementation_hash: 14238718175940983856
+  dependencies: []
+- name: UseMyUnion
+  type: Class
+  interface_hash: 14724718718619552383
+  implementation_hash: 10032964858350237507
+  dependencies:
+    - Recursive1
+- name: SystemComponentCategory
+  type: TypeAlias
+  interface_hash: 13623810988681486090
+  implementation_hash: 984917376026838917
+  dependencies: []
+- name: MyUnion
+  type: TypeAlias
+  interface_hash: 1891944287704085653
+  implementation_hash: 16535096416918632217
+  dependencies:
+    - Recursive1
+- name: Recursive1
+  type: TypeAlias
+  interface_hash: 14578828731614192696
+  implementation_hash: 1338285973221276045
+  dependencies:
+    - Recursive1
+- name: Nonrecursive1
+  type: TypeAlias
+  interface_hash: 901163516928848198
+  implementation_hash: 17946201533005712776
+  dependencies: []
+- name: Nonrecursive2
+  type: TypeAlias
+  interface_hash: 11835149354872891983
+  implementation_hash: 18307812182030845698
+  dependencies: []

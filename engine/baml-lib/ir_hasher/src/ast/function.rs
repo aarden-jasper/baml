@@ -47,8 +47,8 @@ impl ShallowSignature for TopFunctionDefinition<'_> {
         deps
     }
 
-    fn shallow_implementation_hash(&self) -> Option<impl std::hash::Hash> {
-        Some(FunctionImplementationHash(self.0))
+    fn shallow_implementation_hash(&self) -> impl std::hash::Hash {
+        FunctionImplementationHash(self.0)
     }
 }
 

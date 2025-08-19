@@ -1,0 +1,306 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: TestComplexNested
+  type: Function
+  interface_hash: 409231410025148178
+  implementation_hash: 2570406636876764949
+  dependencies:
+    - Address
+    - Approval
+    - Budget
+    - Company
+    - CompanyMetadata
+    - ComplexNested
+    - Contact
+    - Coordinates
+    - Department
+    - Employee
+    - Milestone
+    - Project
+    - Task
+- name: TestDeeplyNested
+  type: Function
+  interface_hash: 16185107750488664948
+  implementation_hash: 13410367622234409239
+  dependencies:
+    - DeeplyNested
+    - Level1
+    - Level2
+    - Level3
+    - Level4
+    - Level5
+- name: TestRecursiveStructure
+  type: Function
+  interface_hash: 8476101278679365194
+  implementation_hash: 13063596427438900806
+  dependencies:
+    - RecursiveStructure
+- name: TestSimpleNested
+  type: Function
+  interface_hash: 11087168387848589712
+  implementation_hash: 16733902048625691584
+  dependencies:
+    - Address
+    - Coordinates
+    - DisplaySettings
+    - Metadata
+    - NotificationSettings
+    - Preferences
+    - PrivacySettings
+    - Profile
+    - SimpleNested
+    - SocialLinks
+    - User
+    - UserSettings
+- name: Address
+  type: Class
+  interface_hash: 16219428620075323966
+  implementation_hash: 12603264549171838472
+  dependencies:
+    - Coordinates
+- name: Approval
+  type: Class
+  interface_hash: 2735851130519192276
+  implementation_hash: 10997117522327413962
+  dependencies: []
+- name: Budget
+  type: Class
+  interface_hash: 7156596843505354558
+  implementation_hash: 11380015410183148582
+  dependencies:
+    - Approval
+- name: Company
+  type: Class
+  interface_hash: 6282929474622612803
+  implementation_hash: 7877907237239661236
+  dependencies:
+    - Address
+    - Approval
+    - Budget
+    - Company
+    - CompanyMetadata
+    - Contact
+    - Coordinates
+    - Department
+    - Employee
+    - Milestone
+    - Project
+    - Task
+- name: CompanyMetadata
+  type: Class
+  interface_hash: 11881454529361453715
+  implementation_hash: 4828713428425622492
+  dependencies:
+    - Address
+    - Approval
+    - Budget
+    - Company
+    - CompanyMetadata
+    - Contact
+    - Coordinates
+    - Department
+    - Employee
+    - Milestone
+    - Project
+    - Task
+- name: ComplexNested
+  type: Class
+  interface_hash: 292494606289714384
+  implementation_hash: 16162661759725373997
+  dependencies:
+    - Address
+    - Approval
+    - Budget
+    - Company
+    - CompanyMetadata
+    - Contact
+    - Coordinates
+    - Department
+    - Employee
+    - Milestone
+    - Project
+    - Task
+- name: Contact
+  type: Class
+  interface_hash: 11827464825601044417
+  implementation_hash: 16008743183945914506
+  dependencies: []
+- name: Coordinates
+  type: Class
+  interface_hash: 16357380501166517420
+  implementation_hash: 6479112108498949034
+  dependencies: []
+- name: DeeplyNested
+  type: Class
+  interface_hash: 1102308015612665411
+  implementation_hash: 15918906979032147573
+  dependencies:
+    - Level1
+    - Level2
+    - Level3
+    - Level4
+    - Level5
+- name: Department
+  type: Class
+  interface_hash: 14053948160824855958
+  implementation_hash: 77111521221147620
+  dependencies:
+    - Address
+    - Approval
+    - Budget
+    - Contact
+    - Coordinates
+    - Employee
+    - Milestone
+    - Project
+    - Task
+- name: DisplaySettings
+  type: Class
+  interface_hash: 2831600754121611101
+  implementation_hash: 17734838744034863900
+  dependencies: []
+- name: Employee
+  type: Class
+  interface_hash: 16028165114356076130
+  implementation_hash: 15852365075463972587
+  dependencies:
+    - Address
+    - Contact
+    - Coordinates
+- name: Level1
+  type: Class
+  interface_hash: 5545330233026482092
+  implementation_hash: 10751305830996695723
+  dependencies:
+    - Level2
+    - Level3
+    - Level4
+    - Level5
+- name: Level2
+  type: Class
+  interface_hash: 12627581157834295764
+  implementation_hash: 760143879593115727
+  dependencies:
+    - Level3
+    - Level4
+    - Level5
+- name: Level3
+  type: Class
+  interface_hash: 10538398915245997162
+  implementation_hash: 16742541036014367710
+  dependencies:
+    - Level4
+    - Level5
+- name: Level4
+  type: Class
+  interface_hash: 15484855933484383621
+  implementation_hash: 7540230447365933144
+  dependencies:
+    - Level5
+- name: Level5
+  type: Class
+  interface_hash: 14860786150935852551
+  implementation_hash: 14351065800943238664
+  dependencies: []
+- name: Metadata
+  type: Class
+  interface_hash: 15744143315876113737
+  implementation_hash: 3844236538678412250
+  dependencies: []
+- name: Milestone
+  type: Class
+  interface_hash: 3404509254195068266
+  implementation_hash: 5340831886559309595
+  dependencies:
+    - Task
+- name: NotificationSettings
+  type: Class
+  interface_hash: 9145327638921673784
+  implementation_hash: 5757136027026326550
+  dependencies: []
+- name: Preferences
+  type: Class
+  interface_hash: 7002209460297306737
+  implementation_hash: 15418572693154453286
+  dependencies:
+    - NotificationSettings
+- name: PrivacySettings
+  type: Class
+  interface_hash: 1182552169281103410
+  implementation_hash: 17630070537173384981
+  dependencies: []
+- name: Profile
+  type: Class
+  interface_hash: 6513575803384849694
+  implementation_hash: 12188630630869002104
+  dependencies:
+    - NotificationSettings
+    - Preferences
+    - SocialLinks
+- name: Project
+  type: Class
+  interface_hash: 10386780093016858425
+  implementation_hash: 4705789876724572164
+  dependencies:
+    - Address
+    - Approval
+    - Budget
+    - Contact
+    - Coordinates
+    - Employee
+    - Milestone
+    - Task
+- name: RecursiveStructure
+  type: Class
+  interface_hash: 15307604661569675964
+  implementation_hash: 2334084027093881143
+  dependencies:
+    - RecursiveStructure
+- name: SimpleNested
+  type: Class
+  interface_hash: 12673417530720438794
+  implementation_hash: 14066956166950636096
+  dependencies:
+    - Address
+    - Coordinates
+    - DisplaySettings
+    - Metadata
+    - NotificationSettings
+    - Preferences
+    - PrivacySettings
+    - Profile
+    - SocialLinks
+    - User
+    - UserSettings
+- name: SocialLinks
+  type: Class
+  interface_hash: 4461688197785365900
+  implementation_hash: 17823356628578394884
+  dependencies: []
+- name: Task
+  type: Class
+  interface_hash: 7707801917500252911
+  implementation_hash: 18334179481502125260
+  dependencies:
+    - Task
+- name: User
+  type: Class
+  interface_hash: 13725963683911013270
+  implementation_hash: 5890164475299541347
+  dependencies:
+    - DisplaySettings
+    - NotificationSettings
+    - Preferences
+    - PrivacySettings
+    - Profile
+    - SocialLinks
+    - UserSettings
+- name: UserSettings
+  type: Class
+  interface_hash: 6454113321372417643
+  implementation_hash: 7963893543489890988
+  dependencies:
+    - DisplaySettings
+    - PrivacySettings

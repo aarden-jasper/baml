@@ -1149,6 +1149,7 @@ dependencies = [
  "internal-baml-core",
  "internal-baml-jinja",
  "internal-llm-client",
+ "ir-hasher",
  "js-sys",
  "json_comments",
  "jsonish",
@@ -3627,6 +3628,7 @@ dependencies = [
  "internal-baml-parser-database",
  "internal-baml-prompt-parser",
  "internal-llm-client",
+ "ir-hasher",
  "itertools 0.13.0",
  "log",
  "minijinja",
@@ -3765,10 +3767,14 @@ name = "ir-hasher"
 version = "0.204.0"
 dependencies = [
  "anyhow",
+ "baml-lib",
  "baml-rpc",
  "baml-types",
+ "insta",
+ "internal-baml-core",
  "internal-baml-parser-database",
  "internal-llm-client",
+ "serde_json",
 ]
 
 [[package]]

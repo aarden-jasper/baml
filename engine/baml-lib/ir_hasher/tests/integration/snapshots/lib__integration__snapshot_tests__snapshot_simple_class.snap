@@ -1,0 +1,9 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: Person
+  type: Class
+  interface_hash: 9969067028187165734
+  implementation_hash: 12092320836688988574
+  dependencies: []

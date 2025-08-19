@@ -1,0 +1,27 @@
+---
+source: baml-lib/ir_hasher/tests/snapshot_tests.rs
+assertion_line: 124
+expression: snapshot_data
+---
+- name: Process
+  type: Function
+  interface_hash: 13374811763781758684
+  implementation_hash: 8556144857924752418
+  dependencies:
+    - Input
+    - Output
+- name: Input
+  type: Class
+  interface_hash: 18228328634875770442
+  implementation_hash: 3531405801868607155
+  dependencies: []
+- name: Output
+  type: Class
+  interface_hash: 8513458496834572009
+  implementation_hash: 17498484612692471818
+  dependencies: []
+- name: TestClient
+  type: Client
+  interface_hash: 11499465178645991028
+  implementation_hash: 14878480893133114955
+  dependencies: []

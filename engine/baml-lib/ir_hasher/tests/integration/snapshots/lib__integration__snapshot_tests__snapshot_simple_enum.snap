@@ -1,0 +1,9 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: Color
+  type: Enum
+  interface_hash: 11765910584240855478
+  implementation_hash: 8246727833787932183
+  dependencies: []

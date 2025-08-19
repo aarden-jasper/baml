@@ -1,0 +1,144 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: TestCircularReference
+  type: Function
+  interface_hash: 3447757694031538971
+  implementation_hash: 6278354912046422867
+  dependencies:
+    - CircularReference
+- name: TestDeepRecursion
+  type: Function
+  interface_hash: 17604217126754405860
+  implementation_hash: 12146767886326509318
+  dependencies:
+    - DeepRecursion
+- name: TestEmptyCollections
+  type: Function
+  interface_hash: 15275779619338272377
+  implementation_hash: 3977452405860904457
+  dependencies:
+    - EmptyCollections
+    - User
+- name: TestLargeStructure
+  type: Function
+  interface_hash: 8144516432223245262
+  implementation_hash: 16618322877335448800
+  dependencies:
+    - LargeStructure
+    - User
+- name: TestNumberEdgeCases
+  type: Function
+  interface_hash: 6686234453681179163
+  implementation_hash: 7511561461291069977
+  dependencies:
+    - NumberEdgeCases
+- name: TestSpecialCharacters
+  type: Function
+  interface_hash: 7426329243847187131
+  implementation_hash: 12509859421125050189
+  dependencies:
+    - SpecialCharacters
+- name: AllNullable
+  type: Class
+  interface_hash: 8118095163016386883
+  implementation_hash: 14458741452488381098
+  dependencies:
+    - User
+- name: BooleanEdgeCases
+  type: Class
+  interface_hash: 18148145833987497250
+  implementation_hash: 13240842705166448225
+  dependencies: []
+- name: CircularReference
+  type: Class
+  interface_hash: 3892323036644871124
+  implementation_hash: 8947864274512617289
+  dependencies:
+    - CircularReference
+- name: DeepRecursion
+  type: Class
+  interface_hash: 6276320133512038804
+  implementation_hash: 4652253830596197965
+  dependencies:
+    - DeepRecursion
+- name: EmptyCollections
+  type: Class
+  interface_hash: 15640152182130927513
+  implementation_hash: 12613982600354363257
+  dependencies:
+    - User
+- name: InnerNullable
+  type: Class
+  interface_hash: 8584108433367673305
+  implementation_hash: 5128151556129498522
+  dependencies: []
+- name: LargeStructure
+  type: Class
+  interface_hash: 7644402945074236114
+  implementation_hash: 905864422066919765
+  dependencies:
+    - User
+- name: MixedEdgeCases
+  type: Class
+  interface_hash: 17654992659110515484
+  implementation_hash: 5517820184834260743
+  dependencies:
+    - OptionalEverything
+    - User
+- name: NestedNullable
+  type: Class
+  interface_hash: 3823904703700441138
+  implementation_hash: 11806126287779559100
+  dependencies:
+    - InnerNullable
+    - OuterNullable
+- name: NullEdgeCases
+  type: Class
+  interface_hash: 5279121288694941086
+  implementation_hash: 10278170173631641164
+  dependencies:
+    - AllNullable
+    - InnerNullable
+    - NestedNullable
+    - OuterNullable
+    - SomeNullable
+    - User
+- name: NumberEdgeCases
+  type: Class
+  interface_hash: 3878798183268262867
+  implementation_hash: 18101716743958820201
+  dependencies: []
+- name: OptionalEverything
+  type: Class
+  interface_hash: 8135823977346074561
+  implementation_hash: 7692056663949308306
+  dependencies:
+    - User
+- name: OuterNullable
+  type: Class
+  interface_hash: 11131263775734012278
+  implementation_hash: 15847300060787920772
+  dependencies:
+    - InnerNullable
+- name: SomeNullable
+  type: Class
+  interface_hash: 926763847668065242
+  implementation_hash: 3829128078837210559
+  dependencies: []
+- name: SpecialCharacters
+  type: Class
+  interface_hash: 9085265140485402407
+  implementation_hash: 11952432008173057409
+  dependencies: []
+- name: User
+  type: Class
+  interface_hash: 8785291194838212972
+  implementation_hash: 17586598218890756233
+  dependencies: []
+- name: VeryLongStrings
+  type: Class
+  interface_hash: 15323599702797782583
+  implementation_hash: 8081788889250378644
+  dependencies: []

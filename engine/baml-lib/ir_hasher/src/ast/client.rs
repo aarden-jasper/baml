@@ -27,8 +27,8 @@ impl ShallowSignature for TopClientDefinition<'_> {
         ClientInterfaceHash(self.0)
     }
 
-    fn shallow_implementation_hash(&self) -> Option<impl std::hash::Hash> {
-        Some(ClientImplementationHash(self.0))
+    fn shallow_implementation_hash(&self) -> impl std::hash::Hash {
+        ClientImplementationHash(self.0)
     }
 
     fn unsorted_interface_dependencies(&self) -> std::collections::HashSet<String> {

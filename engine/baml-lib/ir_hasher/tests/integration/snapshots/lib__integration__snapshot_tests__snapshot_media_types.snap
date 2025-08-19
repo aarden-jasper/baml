@@ -1,0 +1,41 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: TestMediaArrayInputs
+  type: Function
+  interface_hash: 13274428227431774458
+  implementation_hash: 6489511340391245165
+  dependencies:
+    - MediaArrayAnalysisResult
+- name: TestMediaInput
+  type: Function
+  interface_hash: 11032979816554042284
+  implementation_hash: 1877304351828114860
+  dependencies:
+    - MediaAnalysisResult
+- name: MediaAnalysisResult
+  type: Class
+  interface_hash: 5557002249154123559
+  implementation_hash: 10650595115640858592
+  dependencies: []
+- name: MediaArrayAnalysisResult
+  type: Class
+  interface_hash: 7988441511573410663
+  implementation_hash: 7400831551327036675
+  dependencies: []
+- name: MediaMapAnalysisResult
+  type: Class
+  interface_hash: 13041631303022175639
+  implementation_hash: 2970171088718058600
+  dependencies: []
+- name: MixedMediaAnalysisResult
+  type: Class
+  interface_hash: 15150478574605045024
+  implementation_hash: 926664074330481834
+  dependencies: []
+- name: OptionalMediaAnalysisResult
+  type: Class
+  interface_hash: 5069525935759306041
+  implementation_hash: 17964782257678985172
+  dependencies: []

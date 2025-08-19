@@ -56,6 +56,7 @@ jsonish.workspace = true
 generators-lib = { path = "../generators/utils/generators_lib" }
 internal-baml-codegen.workspace = true
 generators-openapi = { path = "../generators/languages/openapi" }
+ir-hasher = { path = "../baml-lib/ir_hasher" }
 internal-llm-client.workspace = true
 internal-baml-core.workspace = true
 internal-baml-jinja.workspace = true

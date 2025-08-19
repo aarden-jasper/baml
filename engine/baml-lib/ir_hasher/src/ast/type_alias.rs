@@ -10,6 +10,11 @@ pub trait TypeAliasDefinition {
     fn name(&self) -> &str;
     fn r#type(&self) -> &TypeRPC;
     fn dependencies(&self) -> HashSet<String>;
+
+    /// Returns all constraints (including @check) for implementation hashing
+    fn all_constraints(&self) -> &[baml_types::Constraint] {
+        self.r#type().meta().constraints.as_slice()
+    }
 }
 
 pub struct TopTypeAliasDefinition<'a>(&'a dyn TypeAliasDefinition);
@@ -33,8 +38,8 @@ impl ShallowSignature for TopTypeAliasDefinition<'_> {
         self.0.dependencies()
     }
 
-    fn shallow_implementation_hash(&self) -> Option<impl std::hash::Hash> {
-        Some(TypeAliasImplementation(self.0))
+    fn shallow_implementation_hash(&self) -> impl std::hash::Hash {
+        TypeAliasImplementation(self.0)
     }
 }
 

@@ -35,13 +35,13 @@ pub trait ShallowSignature {
     }
 }
 
-pub(crate) trait TypedObject {
+pub trait TypedObject {
     fn name(&self) -> &str;
     fn r#type(&self) -> &TypeRPC;
     fn definition_source(&self) -> DefinitionSource;
 }
 
-pub(crate) trait LLMRenderable {
+pub trait LLMRenderable {
     fn alias(&self) -> Option<&StringOr>;
     fn description(&self) -> Option<&StringOr>;
     fn skip(&self) -> bool;

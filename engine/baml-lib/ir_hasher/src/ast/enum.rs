@@ -36,8 +36,8 @@ impl ShallowSignature for TopEnumDefinition<'_> {
         HashSet::new()
     }
 
-    fn shallow_implementation_hash(&self) -> Option<impl std::hash::Hash> {
-        Some(EnumImplementation(self.0))
+    fn shallow_implementation_hash(&self) -> impl std::hash::Hash {
+        EnumImplementation(self.0)
     }
 }
 

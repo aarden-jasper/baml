@@ -1,0 +1,130 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: TestComplexMaps
+  type: Function
+  interface_hash: 7685768922752759953
+  implementation_hash: 17361425715610606258
+  dependencies:
+    - ComplexMaps
+    - Product
+    - User
+- name: TestEdgeCaseMaps
+  type: Function
+  interface_hash: 5870107701574433057
+  implementation_hash: 13632767202695369013
+  dependencies:
+    - EdgeCaseMaps
+- name: TestLargeMaps
+  type: Function
+  interface_hash: 13603964375577869085
+  implementation_hash: 7293108088696315046
+  dependencies:
+    - SimpleMaps
+- name: TestNestedMaps
+  type: Function
+  interface_hash: 11983020972328639960
+  implementation_hash: 8305140846810870825
+  dependencies:
+    - NestedMaps
+- name: TestSimpleMaps
+  type: Function
+  interface_hash: 1648656504395491480
+  implementation_hash: 12135618579662309771
+  dependencies:
+    - SimpleMaps
+- name: TestTopLevelBoolMap
+  type: Function
+  interface_hash: 13903867560431774574
+  implementation_hash: 571431941939490771
+  dependencies: []
+- name: TestTopLevelEmptyMap
+  type: Function
+  interface_hash: 4204635188544235480
+  implementation_hash: 7441090705127719622
+  dependencies: []
+- name: TestTopLevelFloatMap
+  type: Function
+  interface_hash: 11015570277571851547
+  implementation_hash: 3898911858173379536
+  dependencies: []
+- name: TestTopLevelIntMap
+  type: Function
+  interface_hash: 8103593016370020087
+  implementation_hash: 11385098140575028793
+  dependencies: []
+- name: TestTopLevelMapOfArrays
+  type: Function
+  interface_hash: 18296928767463791590
+  implementation_hash: 15867955909569926708
+  dependencies: []
+- name: TestTopLevelMapOfObjects
+  type: Function
+  interface_hash: 14350719861746874898
+  implementation_hash: 11215805364161790449
+  dependencies:
+    - User
+- name: TestTopLevelMapWithNullable
+  type: Function
+  interface_hash: 4590315471098329080
+  implementation_hash: 82897502455265593
+  dependencies: []
+- name: TestTopLevelNestedMap
+  type: Function
+  interface_hash: 4536850947624189222
+  implementation_hash: 6293071235863825804
+  dependencies: []
+- name: TestTopLevelStringMap
+  type: Function
+  interface_hash: 13790329405475303293
+  implementation_hash: 9645881039986550292
+  dependencies: []
+- name: ComplexMaps
+  type: Class
+  interface_hash: 10457094134477898453
+  implementation_hash: 3942559752495182783
+  dependencies:
+    - Product
+    - User
+- name: Config
+  type: Class
+  interface_hash: 1135335184362623151
+  implementation_hash: 5957311306102192522
+  dependencies: []
+- name: EdgeCaseMaps
+  type: Class
+  interface_hash: 1473216765517361205
+  implementation_hash: 17420043539671362384
+  dependencies: []
+- name: MixedKeyMaps
+  type: Class
+  interface_hash: 12217816762902094777
+  implementation_hash: 8126676427582419252
+  dependencies:
+    - Config
+- name: NestedMaps
+  type: Class
+  interface_hash: 6852169918221482949
+  implementation_hash: 13668762069910941671
+  dependencies: []
+- name: Product
+  type: Class
+  interface_hash: 8871829979402940739
+  implementation_hash: 7089761862173430627
+  dependencies: []
+- name: SimpleMaps
+  type: Class
+  interface_hash: 18181537728907017426
+  implementation_hash: 14879190570679845379
+  dependencies: []
+- name: User
+  type: Class
+  interface_hash: 9535613154501904917
+  implementation_hash: 8865809107021857826
+  dependencies: []
+- name: Status
+  type: Enum
+  interface_hash: 17930651185916219079
+  implementation_hash: 3494614168384599073
+  dependencies: []

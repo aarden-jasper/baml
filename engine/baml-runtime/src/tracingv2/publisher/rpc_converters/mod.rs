@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::Result;
 use baml_ids::FunctionCallId;
 use baml_rpc::{ast::tops::BamlFunctionId, BamlTypeId};
-use baml_types::{ir_type::TypeNonStreaming, type_meta, HasType};
+use baml_types::{ir_type::TypeRPC, type_meta, HasType};
 use base64::Engine;
 
 use crate::tracingv2::storage::interface::TraceEventWithMeta;
@@ -19,8 +19,11 @@ pub type WithDependency<T> = (Arc<T>, Arc<Vec<Arc<BamlTypeId>>>);
 #[derive(serde::Serialize)]
 pub struct TypeWithDependencies {
     pub type_id: WithDependency<BamlTypeId>,
-    pub field_type: Arc<TypeNonStreaming>,
-    pub class_fields: Option<Arc<Vec<(String, Arc<TypeNonStreaming>)>>>,
+    // Type of self
+    pub field_type: Arc<TypeRPC>,
+    // Type of fields of self
+    pub class_fields: Option<Arc<Vec<(String, Arc<TypeRPC>)>>>,
+    // Values of self
     pub enum_values: Option<Arc<Vec<String>>>,
 }
 

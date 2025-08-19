@@ -17,10 +17,10 @@ impl ShallowSignature for TypeRPC {
         self.immediate_dependencies()
     }
 
-    fn shallow_implementation_hash(&self) -> Option<impl std::hash::Hash> {
+    fn shallow_implementation_hash(&self) -> impl std::hash::Hash {
         // If union order ends up being important, we can hash the union type
         // then this will need to be changed
-        Some(TypeRPCImplementation(self))
+        TypeRPCImplementation(self)
     }
 }
 

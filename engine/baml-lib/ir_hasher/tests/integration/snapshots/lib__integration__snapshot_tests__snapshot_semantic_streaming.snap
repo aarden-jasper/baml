@@ -1,0 +1,48 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: MakeClassWithBlockDone
+  type: Function
+  interface_hash: 8493945004968254270
+  implementation_hash: 12630344055997154111
+  dependencies:
+    - ClassWithBlockDone
+- name: MakeClassWithExternalDone
+  type: Function
+  interface_hash: 16522802835666965283
+  implementation_hash: 327740375401385971
+  dependencies:
+    - ClassWithoutDone
+- name: MakeSemanticContainer
+  type: Function
+  interface_hash: 18659495880363276
+  implementation_hash: 4631661791170128105
+  dependencies:
+    - ClassWithBlockDone
+    - ClassWithoutDone
+    - SemanticContainer
+    - SmallThing
+- name: ClassWithBlockDone
+  type: Class
+  interface_hash: 4704152470401434021
+  implementation_hash: 9775379746335855364
+  dependencies: []
+- name: ClassWithoutDone
+  type: Class
+  interface_hash: 6751999164274895729
+  implementation_hash: 14478808390490576861
+  dependencies: []
+- name: SemanticContainer
+  type: Class
+  interface_hash: 6766577126663208145
+  implementation_hash: 15828098934380630476
+  dependencies:
+    - ClassWithBlockDone
+    - ClassWithoutDone
+    - SmallThing
+- name: SmallThing
+  type: Class
+  interface_hash: 8117575623005819159
+  implementation_hash: 8622076265819443968
+  dependencies: []

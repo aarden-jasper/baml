@@ -44,8 +44,8 @@ impl ShallowSignature for TopClassDefinition<'_> {
             .collect()
     }
 
-    fn shallow_implementation_hash(&self) -> Option<impl std::hash::Hash> {
-        Some(ClassImplementation(self.0))
+    fn shallow_implementation_hash(&self) -> impl std::hash::Hash {
+        ClassImplementation(self.0)
     }
 }
 

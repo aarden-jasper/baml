@@ -1,0 +1,21 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: ConsumeSimpleClass
+  type: Function
+  interface_hash: 8847496960918895969
+  implementation_hash: 16620226745057446081
+  dependencies:
+    - SimpleClass
+- name: MakeSimpleClass
+  type: Function
+  interface_hash: 7834908214945678430
+  implementation_hash: 7786163949459978780
+  dependencies:
+    - SimpleClass
+- name: SimpleClass
+  type: Class
+  interface_hash: 15172585397056633637
+  implementation_hash: 1868758157841221740
+  dependencies: []

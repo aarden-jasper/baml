@@ -1,0 +1,50 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: Foo
+  type: Function
+  interface_hash: 4263689446735960874
+  implementation_hash: 2158664685885895258
+  dependencies:
+    - JSON
+- name: JsonInput
+  type: Function
+  interface_hash: 14690623326212572580
+  implementation_hash: 16086723841285285512
+  dependencies:
+    - JSON
+- name: UseMyUnion
+  type: Class
+  interface_hash: 14724718718619552383
+  implementation_hash: 10032964858350237507
+  dependencies:
+    - Recursive1
+- name: JSON
+  type: TypeAlias
+  interface_hash: 15832972911847630634
+  implementation_hash: 6445097142199344418
+  dependencies:
+    - JSON
+- name: MyUnion
+  type: TypeAlias
+  interface_hash: 1891944287704085653
+  implementation_hash: 16535096416918632217
+  dependencies:
+    - Recursive1
+- name: Recursive1
+  type: TypeAlias
+  interface_hash: 14578828731614192696
+  implementation_hash: 1338285973221276045
+  dependencies:
+    - Recursive1
+- name: Nonrecursive1
+  type: TypeAlias
+  interface_hash: 901163516928848198
+  implementation_hash: 17946201533005712776
+  dependencies: []
+- name: Nonrecursive2
+  type: TypeAlias
+  interface_hash: 11835149354872891983
+  implementation_hash: 18307812182030845698
+  dependencies: []

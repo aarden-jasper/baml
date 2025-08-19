@@ -1,0 +1,42 @@
+---
+source: baml-lib/ir_hasher/tests/integration/snapshot_tests.rs
+expression: snapshot_data
+---
+- name: ProcessPeople
+  type: Function
+  interface_hash: 10270999621648251609
+  implementation_hash: 8529812206415726635
+  dependencies:
+    - Address
+    - Person
+    - Status
+- name: Address
+  type: Class
+  interface_hash: 8818658798237361382
+  implementation_hash: 1769392557452043453
+  dependencies: []
+- name: Person
+  type: Class
+  interface_hash: 14204576543453812917
+  implementation_hash: 10797738691084049780
+  dependencies:
+    - Address
+    - Status
+- name: Status
+  type: Enum
+  interface_hash: 776042481804890300
+  implementation_hash: 1303380058265992170
+  dependencies: []
+- name: PersonList
+  type: TypeAlias
+  interface_hash: 11287057740395851710
+  implementation_hash: 15776101937084972527
+  dependencies:
+    - Address
+    - Person
+    - Status
+- name: TestClient
+  type: Client
+  interface_hash: 13426836896245902764
+  implementation_hash: 10710612714028356091
+  dependencies: []
