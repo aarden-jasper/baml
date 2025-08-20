@@ -18,6 +18,7 @@ use rayon::prelude::*;
 
 mod common;
 pub mod configuration;
+pub mod feature_flags;
 pub mod ir;
 // mod lockfile;
 mod validate;
@@ -26,6 +27,7 @@ use self::validate::generator_loader;
 pub use crate::{
     common::{PreviewFeature, PreviewFeatures, ALL_PREVIEW_FEATURES},
     configuration::Configuration,
+    feature_flags::{BamlFeatureFlag, FeatureFlags},
 };
 
 pub struct ValidatedSchema {
@@ -42,7 +44,11 @@ impl std::fmt::Debug for ValidatedSchema {
 
 /// The most general API for dealing with BAML source code. It accumulates what analysis and
 /// validation information it can, and returns it along with any error and warning diagnostics.
-pub fn validate(root_path: &Path, files: Vec<SourceFile>) -> ValidatedSchema {
+pub fn validate(
+    root_path: &Path,
+    files: Vec<SourceFile>,
+    feature_flags: FeatureFlags,
+) -> ValidatedSchema {
     let mut diagnostics = Diagnostics::new(root_path.to_path_buf());
     let mut db = internal_baml_parser_database::ParserDatabase::new();
 
@@ -85,7 +91,12 @@ pub fn validate(root_path: &Path, files: Vec<SourceFile>) -> ValidatedSchema {
     }
 
     // actually run the validation pipeline
-    validate::validate(&db, configuration.preview_features(), &mut diagnostics);
+    validate::validate(
+        &db,
+        configuration.preview_features(),
+        feature_flags,
+        &mut diagnostics,
+    );
 
     if diagnostics.has_errors() {
         return ValidatedSchema {
@@ -155,7 +166,12 @@ fn validate_test_type_builders(
             diagnostics.push(d);
             continue;
         }
-        validate::validate(&scoped_db, configuration.preview_features(), diagnostics);
+        validate::validate(
+            &scoped_db,
+            configuration.preview_features(),
+            FeatureFlags::new(),
+            diagnostics,
+        );
         if diagnostics.has_errors() {
             continue;
         }
@@ -172,7 +188,12 @@ pub fn run_validation_pipeline_on_db(
     db: &mut internal_baml_parser_database::ParserDatabase,
     diagnostics: &mut Diagnostics,
 ) {
-    validate::validate(db, BitFlags::<PreviewFeature>::default(), diagnostics);
+    validate::validate(
+        db,
+        BitFlags::<PreviewFeature>::default(),
+        FeatureFlags::new(),
+        diagnostics,
+    );
     if diagnostics.has_errors() {
         return;
     }
